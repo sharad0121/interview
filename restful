@@ -1,1 +1,352 @@
-restful
+JDK 8 New Features:
+
+Lambda Expressions
+Functional Interfaces
+Default Methods
+Predicates
+Functions
+Double Colon Operator
+Stream API
+Date and Time API
+
+Lambda Expressions
+Lambda Expression is just an anonymous (nameless) function. That means the function which doesn’t have the name, return type and access modifiers.
+these are also called as anonymous functions or closures
+for example below method in object oriented programming can be converted to functional interfaces as below.
+
+public void add(int a int b){
+	sop(a+b);
+}
+
+()->{sop(a+b);} or
+()->sop(a+b);
+
+public void add(int a int b){
+	sop(a+b);
+}
+
+(int a, int b)-> {sop(a+b);}
+(a,b)-> sop(a+b);
+
+public String str(String str){
+	return str;
+}
+
+(String str) -> { return str; }
+
+(str) -> return str;
+(str) -> str;
+
+conclusions:
+
+1. a lambda expression can have zero or more number of parameters(arguments).
+
+()->sop("hello");
+(a,b)->return (a+b);
+
+2. usually we can specify type of parameter.. If the compiler expects the type based on the context then we can remove type i.e. not required to mention explicitly.
+
+(int a , int b)->sop(a+b);
+(a+b)->sop(a+b);
+
+3. If multiple parameters present then these parameters should be seperated with comma(,).
+4. If zero number of parameters available then we have to use empty parameter like ()
+()->sop("hello");
+
+5. If only one parameter is available and if the compiler can expect the type we can remove the type and paranthesis also.
+
+(int a)->sop(a);
+(a)-> sop(a);
+a->sop(a);
+
+6. similar to method body lambda expression body also can contain multiple statements. If If more than one statements are present then we have to enclose inside curly braces. If one statement is present then curly braces are optional.
+
+7. once we write lambda expression we can call that expression just like a method, for this functional interfaces are required.
+
+Q. What is the relationship between the lambda expressions and functional interfaces.
+
+Lambda expression represents the implementation of functional interface's only abstract method. 
+--------------------------
+Functional Interfaces:
+If an interface contain only one abstract method, such type of interfaces are called functional interfaces and the method is called 
+functional method or single abstract method (SAM).
+Ex:
+Runnale -> It contains only run() method
+Comparable -> It contains only compareTo() method 
+ActionListener -> It contains only actionPerformed()
+Callable -> It contains only call() method
+Inside functional interface in addition to single Abstract method (SAM) we write any number of default and static methods.
+
+public interface FunctionalDemo{
+public abstract void m1();
+public static String m2();
+public default String functionalDemoDefault();
+}
+
+In Java 8, Sun Micro System introduced @FunctionalInterface annotation to specify that the interface is Functional Interface.
+
+for e.g.
+@Functional 
+public interface FunctionalDemo{
+public abstract void m1();  //abstract
+public static String m2(); 
+public default String functionalDemoDefault();
+}
+
+if we write more than one abstract methods in functional interfaces we get compile time error as 
+"FunctionalDemo is not a functional interface multiple non-overriding abstract methods found in interface FunctionalDemo"
+
+@FunctionalInterface 
+public interface FunctionalDemo{
+public void m1();  //by default abstract
+public String m2(); //by default abstract
+public default String functionalDemoDefault();
+}
+
+@FunctionalInterface
+^
+  FunctionalDemo is not a functional interface
+    multiple non-overriding abstract methods found in interface FunctionalDemo
+2 errors
+
+If we dont declare one abstract method inside functional interface then we get compilation error as 
+"FunctionalDemo is not a functional interface no abstract method found in interface FunctionalDemo"
+@FunctionalInterface
+public interface FunctionalDemo{
+}
+
+@FunctionalInterface
+^
+  FunctionalDemo is not a functional interface
+    no abstract method found in interface FunctionalDemo
+1 error
+
+Functional Interface with respect to Inheritance:
+
+If an interface extends functional interface and does not contain additional abstract method then the child interface is also 
+functional interface.
+
+In short for the interface heirarchy which inherits and has only one abstract method then all those interfaces from the parent interface 
+which declares the abstract method are functional interfaces.
+
+@FunctionalInterface
+public interface FunctionalDemo{
+public void m1();
+}
+
+@FunctionalInterface
+interface FunctionalDemoChild extends FunctionalDemo{
+// no abstract method 
+public static void m2();
+public default void m3();
+}
+
+In this scenario both FunctionalDemo and FunctionalDemoChild both are functional interfaces as both of these have access 
+to the abstract method -> pulic void m1()
+
+however we can have exactly same abstract method in Child functional interface as it is considered a new implementation of 
+abstract method and is allowed and no compile time error is thrown.
+
+@FunctionalInterface
+public interface FunctionalDemo{
+public void m1(); // parent abstract method 
+}
+
+@FunctionalInterface
+interface FunctionalDemoChild extends FunctionalDemo{
+public void m1();  // child abstract method 
+public static void m2();
+public default void m3();
+}
+
+in child functional interface we cant declare any new abstract method otherwise it wont be a functional interface and 
+so using @FunctionalInterface annotation is not allowed. It is completely fine if the child method does not have a new
+abstract method or does not have @FunctionalInterface annotation.
+
+Functional Interfaces Vs Lambda Expressions:
+Once we have written lambda expression, to invoke its functionality functional interface is required.
+We can use functional interface reference variable to refer to the lambda expression, which mean technically we are assigning 
+the only abstract method of the functional interface its behaviour. This is why wherever functional interface concept is applicable, 
+we can use lambda expressions.
+
+e.g.
+
+interface FunctionalDemo{
+public void methodOne();
+}
+
+ class Demo implements FunctionalDemo{
+public void methodOne(){
+ System.out.println("method one execution!");
+}
+}
+
+public class Test{
+public static void main(String[] args){
+FunctionalDemo demo = new Demo();
+demo.methodOne();
+}
+}
+
+javac Test.java
+java Test
+method one execution!
+
+with the concept of lambda expression above code can be considered as object declaration overhead as the things can be much 
+simpler in case of Lambda Expressions and functional interfaces.
+
+@FunctionalInterface
+interface FunctionalDemo{
+public void methodOne();
+}
+
+public class Test{
+public static void main(String[] args){
+FunctionalDemo demo = () ->  System.out.println("method one execution!");
+demo.methodOne();
+}
+}
+
+javac Test.java
+java Test
+method one execution!
+
+----------------------
+sum without lambda expression
+
+interface FunctionalDemo{
+public int sum(int a, int b);
+}
+
+ class Demo implements FunctionalDemo{
+public int  sum(int a, int b){
+  return a+b;
+}
+}
+
+public class Test{
+public static void main(String[] args){
+FunctionalDemo demo = new Demo();
+    System.out.println(demo.sum(10,20));
+}
+}
+
+javac Test.java
+java Test
+30
+
+sum with lambda expression
+
+interface FunctionalDemo{
+public int sum(int a, int b);
+}
+
+ class Demo implements FunctionalDemo{
+public int  sum(int a, int b){
+  return a+b;
+}
+}
+
+public class Test{
+public static void main(String[] args){
+FunctionalDemo demo = (a, b) -> {
+  return a+b;
+};
+    System.out.println(demo.sum(20,30));
+}
+}
+
+javac Test.java
+java Test
+------------------------
+square without functional interface 
+
+interface FunctionalSquare{
+public int square(int num);
+}
+
+ class FunctionalSquareImpl implements FunctionalSquare{
+public int  square(int num){
+  return num*num;
+}
+}
+
+public class Test{
+public static void main(String[] args){
+FunctionalSquare demo = new FunctionalSquareImpl();
+    System.out.println(demo.square(20));
+}
+}
+
+javac Test.java
+java Test
+400
+
+square with lambda expression:
+
+interface FunctionalSquare{
+public int square(int num);
+}
+
+public class Test{
+public static void main(String[] args){
+FunctionalSquare demo =  num -> num*num;
+    System.out.println(demo.square(30));
+}
+}
+javac Test.java
+java Test
+900
+
+----------------
+Runnable without Lambda Expressions
+
+class MyRunnable implements Runnable{
+
+public void run(){
+for(int i=0; i<10; i++){
+  System.out.println(" Child Thread! ");
+}
+}
+}
+
+public class Test{
+public static void main(String[] args){
+  MyRunnable runnable = new MyRunnable();
+  runnable.start();
+for(int i=0; i<10; i++){
+  System.out.println(" Parent Thread! ");
+}
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

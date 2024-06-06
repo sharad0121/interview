@@ -304,7 +304,7 @@ Runnable without Lambda Expressions
 class MyRunnable implements Runnable{
 
 public void run(){
-for(int i=0; i<10; i++){
+for(int i=0; i<2; i++){
   System.out.println(" Child Thread! ");
 }
 }
@@ -312,13 +312,262 @@ for(int i=0; i<10; i++){
 
 public class Test{
 public static void main(String[] args){
-  MyRunnable runnable = new MyRunnable();
+  Thread  runnable = new Thread(new MyRunnable());
   runnable.start();
-for(int i=0; i<10; i++){
+for(int i=0; i<2; i++){
   System.out.println(" Parent Thread! ");
 }
 }
 }
+
+javac Test.java
+java Test
+ Parent Thread! 
+ Parent Thread! 
+ Child Thread! 
+ Child Thread! 
+
+Runnable with Lambda Expression
+
+public class Test{
+public static void main(String[] args){
+  Thread  runnable = new Thread(()->
+  {
+    for(int i=0; i<3; i++){
+      System.out.println(" Child Thread! ");
+      }
+  });
+
+  runnable.start();
+    for(int i=0; i<3; i++){
+      System.out.println(" Parent Thread! ");
+    }
+}
+}
+➜ java Test      
+ Parent Thread! 
+ Parent Thread! 
+ Parent Thread! 
+ Child Thread! 
+ Child Thread! 
+ Child Thread!
+
+Anonymous Inner Class Vs Lambda Expression
+whenever we are using the anonymous inner class there may be a chance of using lambda expression to reduce the  length of the code 
+to reduce complexity of code and to increase readability
+
+thread with anonymous inner class
+public class Test{
+public static void main(String[] args){
+  Thread  runnable = new Thread(new Runnable(){
+    public void run(){
+        for(int i=0; i<2; i++){
+          System.out.println(" Child Thread! ");
+        }
+    }
+  });
+  runnable.start();
+for(int i=0; i<2; i++){
+  System.out.println(" Parent Thread! ");
+}
+}
+}
+
+javac Test.java
+java Test      
+ Parent Thread! 
+ Parent Thread! 
+ Child Thread! 
+ Child Thread! 
+
+anonymous class with lambda expression
+public class Test{
+public static void main(String[] args){
+  Thread  runnable = new Thread(()->
+      {
+         for(int i=0; i<1; i++){
+          System.out.println(" Child Thread! ");
+        }
+      });
+  runnable.start();
+for(int i=0; i<1; i++){
+  System.out.println(" Parent Thread! ");
+}
+}
+}
+
+What are the advantages of Lambda Expressions
+We can reduce the length of the code so that the readability of the code will be improved.
+we can resolve complexity of writing the anonymous inner classes.
+we can provide lambda expressions in place of objects.
+we can pass lambda expression as argument to the methods.
+
+
+Anonymous inner class can extend concrete class, can extend abstract class can implement interface with any number of methods but 
+Lambda Expression can implement an interface with only single abstract method (Functional Interface). Hence If anonymous inner class
+implements functional interface in this particular case only we can use lambda expressions .
+
+Hence wherever anonymous inner class concept is there it might not be possible to replace with lambda expression.
+inside anonymous inner class we can declare instance variable.
+inside anonymous inner class this keyword always refers to current inner class object but not related to the outer class object.
+
+inside lambda expressions we cant declare instance variables.
+whatever variables declared inside lambda expression are simply acts as a local variables.
+within lambda expression this keyword represents the current outer class object reference (ie. enclosing class reference in which the 
+lambda expression is declared.
+
+this in lambda
+--------------
+interface ThisDemo{
+  public void executeLambda(); //just need to abstract which it is by default if we not make it public or default
+}
+public class Test{
+int x = 777;
+public void m1(){
+  ThisDemo demo = () -> {
+    int x = 888;
+    System.out.println("x value in local"+x);
+    System.out.println("x value of this "+this.x);
+  };
+  demo.executeLambda();
+
+}
+public static void main(String[] args){
+ Test t = new Test();
+ t.m1();
+
+}
+}
+
+from lambda expressions we can access enclosing class variables and enclosing method variables direclt.
+the local variables referenced from lambda are implicitely final and hence we can not perform reassignmant of those local variables
+otherwise we get exception.
+
+interface ThisDemo{
+  public void executeLambda(); //just need to abstract which it is by default if we not make it public or default
+}
+public class Test{
+int x = 777;
+public void m1(){
+    int y = 888;
+  ThisDemo demo = () -> {
+    x = 9999;
+    System.out.println("x value in local "+x);
+    System.out.println("x value of this "+y);
+    x=999;
+   // y=0;
+  };
+  demo.executeLambda();
+
+}
+public static void main(String[] args){
+ Test t = new Test();
+ t.m1();
+
+}
+}
+
+a lambda expression can change the value of a class variable but it could not change the value of the variable local to method
+which is eclosing lambda.
+
+
+------------------
+anonymous inner class and lambda expression difference:
+
+anonymous inner class:
+Its a class without name
+It can extend or abstract or concrete classes
+It can implement interface with any number of abstract methods.
+Inside anonymous inner class we can declare instance variables.
+It can be instantiated.
+this refers to anonymous inner class object
+It is still a best way if we are dealing with multiple methods.
+as it is a seperate class at the time of compilation seperate .class file will be generated.
+memory allocation will be on demand whenever we are creating objects.
+
+lambda expressions:
+Its a method without name
+It cant extend or abstract or concrete classes
+It can implement interface with only one abstract method.
+Inside lambda expression we cant declare instance variables. the variables declared simply acts as a local variables.
+It cant be instantiated.
+this refers to enclosing class object.
+It is still a best way if we want to handle interface with single abstract method.
+no seperate .class file is generated rather it is converted to outer class private method.
+It resides in permanant memory or method area.
+
+Default Methods:
+----------------
+upto java 7 every method declared inside interface is by default public and abstract and 
+every variable declared inside interface is by default public static final whether we are declaring or not.
+
+but from java8 version onwards in addition to this, we could also write default concrete methods also inside interface
+which are also known as defender methods.
+we can write default methods as follows.
+
+public interface DefaultDemo{
+  default void printData(){
+	System.out.println("Default Method!");
+  }
+}
+
+these default methods will be by default available to all the implementation classes. based on the requirement the implementation 
+classes can use these method direcly or can override.'
+
+public class Test implements DefaultDemo{
+  default void printData(){
+	System.out.println("Default Method overriden!");
+  }
+}
+
+default methods are also known as defender methods or virtual extension methods
+the main advantage of the default methods is that without affecting the implementation classes we can add new functionality to the 
+interface. means implementation classes are not forced to override or use so even if the interface is changed to add one concrete 
+method the existing functionality will not break.
+
+We cant override Object class methods inside interface as default methods, otherwise we get compile time error.	
+
+public interface Test{
+default int hashCode(){
+    return 10;
+}
+}
+Test.java:3: error: default method hashCode in interface Test overrides a member of java.lang.Object
+default int hashCode(){
+
+Object class methods are by default available to every java class hence It is not required to bring them through default methods.
+-------------------------
+Default Methods Vs Multiple Inheritance
+
+It two interfaces has the default method with the same name then there is a change of ambiguity.(diamond problem) to the implementation classes
+which are implementing both of these interfaces
+to overcome this problem we should compulsory we need to override default method in the implemention class and specify which superclass 
+implementation to be used.
+
+interface Left{
+default m1(){
+System.out.println("interface Left default implementation")
+}
+}
+
+interface Right{
+default m1(){
+System.out.println("interface Right default implementation")
+}
+}
+
+interface Test implements Left, Right{
+public void m1(){
+System.out.println("Test class method ")  or 
+Left.super.m1();
+}
+}
+
+
+
+
+
+
 
 
 

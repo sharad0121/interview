@@ -803,10 +803,225 @@ public void m1(int i){
    System.out.println("from instance method reference"+i);
 }
 public static void main(String[] args){
-  InstanceMethodReference instanceMethodRef = TestInstanceMethodReference::m1;
+  TestInstanceMethodReference testMethodRef = new TestInstanceMethodReference();
+  InstanceMethodReference instanceMethodRef = testMethodRef::m1;
   instanceMethodRef.m1(10);
 }
 }
+
+only the argument types of the functional interface method and our specified method needs to match rest of the things like return type
+method name modifiers are not required to match.
+
+Constructor Reference:
+---------------------
+the same way as method reference we can also refer to constructors also.
+syntax
+ClassName::new
+InterfaceName f = sample::new
+
+example: functional interface referring to Sample class constructor
+
+import java.util.function.*;
+class Sample{
+private String s;
+Sample(String s){
+this.s=s;
+System.out.println("Constructor executed"+ s);
+}
+}
+
+interface Interf{
+ public Sample get(String s);
+}
+public class TestConstructorRef{
+ public static void main(String[] args){
+   Interf f = s-> new Sample(s);
+   f.get(" using Lambda Expression");
+   f=Sample::new;
+   f.get(" using Constructor reference");
+ }
+}
+In both method and constructor reference compulsory the argument types must be matched.
+
+Streams:
+--------
+to process Objects of the Collection Streams concepts is introduced.
+
+What is the difference between java.util.streams and java.io.streams package classes?
+java.util.streams package is to process the Collection objects It represents streams of objects from Collection, but 
+java.io.streams package classes are used to process the binary and character data to/from file and java code.
+
+What is the difference between Streams and Collections?
+If we want to represent the group of objects as a single object then we should go for collection.
+If we want to process the group of objects from Collection then we should go for Streams.
+We can create a stream oobject to the collection by using stream() method method of Collection interface.
+stream() method is default method added to the Collection in version 1.8
+
+public default Stream stream();
+
+for.e.g.
+Stream s = c.stream();
+
+We can process Objects in two phases.
+Configuration 
+Processing
+
+We can configure either by using the filter or the map mechanism
+
+Filtering
+---------
+We can configure a filter to filter elements from the collection based on some boolean condition or by using filter() method of Stream interface
+
+public Stream filter(Predicate<T> predicate)
+here predicate can be a boolean valued function or lambda expression.
+
+e.g. 
+Stream s = c.stream();
+to filter elements of collection on some boolean condition we should go for filter() method.
+
+example: 
+
+import java.util.function.*;
+import java.util.stream.*;
+import java.util.*;
+
+public class FilterDemo{
+public static void main(String[] args){
+  List<Integer> numbers = new ArrayList<>();
+  List<Integer> evenNumbers = new ArrayList<>();
+  numbers.add(1); numbers.add(4); numbers.add(7); numbers.add(9);
+  numbers.stream().filter(num->num%2==0).peek(System.out::println).collect(Collectors.toList());
+  //evenNumbers = numbers.stream().filter(num->num%2==0).collect(Collectors.toList());
+  //evenNumbers.forEach(System.out::println);
+}
+}
+
+Mapping:
+-------
+If we want to create some new Object for every Object present in the Collection, based on our own requirement then we should go for 
+map() method of Stream interface.
+public Stream map(Function f); this can be a lambda expression.
+Stream s = c.stream();
+Stream s2 = s.map(value -> value+10);
+
+Once we are done with the configuration of the object using filter and map we can process objects by using several methods.
+
+2. Processing:
+--------------
+processing can be done by using any of the following method
+collect()
+count()
+sorted()
+min() and max()
+forEach()
+toArray()
+Stream.of() 
+
+Processing Stream using collect() method of Stream interface
+------------------------------------------------------------
+example: to collect only even numbers from the ArrayList 
+1 without streams
+-----------------
+
+public class FilterAndCollectWithoutStreamsTest{
+  public static void main(String[] args){
+   List<Integer> numbers = Arrays.asList{1,3,3,4,4,5,3,3,2};
+   List<Integer> evenNumbers = new ArrayList<>();
+
+   for( Integer num : numbers){
+    if(num%2==0){
+      evenNumbers.add(num);
+    }
+   }
+   evenNumber.forEach(System.out::println);
+  }
+}
+2 with streams
+--------------
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
+public class FilterAndCollectStreamsTest{
+  public static void main(String[] args){
+   List<Integer> numbers = Arrays.asList(1,3,3,4,4,5,3,3,2);
+   List<Integer> evenNumbers = new ArrayList<>();
+
+   evenNumbers = numbers.stream().filter(n->n%2==0).collect(Collectors.toList());
+   evenNumbers.forEach(System.out::println);
+  }
+}
+
+example for map and collect you have products with name and price. you need to change the name to uppercase and price prefixed discounted 
+
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
+class Product{
+ private String name;
+ private double price;
+ public Product(String name, double price){
+  this.name=name;
+  this.price=price;
+ }
+ public String getName(){
+   return this.name;
+ }
+  public double getPrice(){
+   return this.price;
+ }
+ public String toString(){
+  return "name: "+name+" price "+price;
+ }
+}
+
+public class FilterandMapDemo{
+  public static void main(String[] args){
+   List<Product> products = new ArrayList<Product>();
+   Product p1 = new Product("shirt",2322); 
+   Product p2 = new Product("pant",2000);
+   products.add(p1); products.add(p2);
+
+   List<String> productsString = products.stream().map(product-> ""+product.getName().toUpperCase()+" Discounted Price: "+product.getPrice()).
+     collect(Collectors.toList());
+    productsString.forEach(System.out:: println);
+
+  }
+}
+
+processing by count
+-------------------
+this method returns the number of elements present in the stream
+public long count()
+import java.util.*;
+import java.util.function.*;
+public class StreamCountDemo{
+  public static void main(String[] args){
+   List<Integer>  numbers= Arrays.asList(1,4,5,3,2,5,5,8);
+   long count = numbers.stream().filter(n->n%2==0).count();
+   System.out.println("count of even numbers are: "+count);
+  }
+}
+
+processing by sorted 
+--------------------
+import java.util.*;
+import java.util.function.*;
+public class StreamSortedDemo{
+  public static void main(String[] args){
+   List<Integer>  numbers= Arrays.asList(1,4,5,3,2,5,5,8);
+    List<Integer>  sortedNums = numbers.stream().sorted();
+   System.out.println("the sorted numbers are: ");
+   sortedNums.forEach(System.out::println);
+  }
+}
+
+
+
+
+
+
 
 
 

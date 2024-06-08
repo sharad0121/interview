@@ -1,0 +1,1081 @@
+JDK 8 New Features:
+
+Lambda Expressions
+Functional Interfaces
+Default Methods
+Predicates
+Functions
+Double Colon Operator
+Stream API
+Date and Time API
+
+Lambda Expressions
+Lambda Expression is just an anonymous (nameless) function. That means the function which doesn’t have the name, return type and access modifiers.
+these are also called as anonymous functions or closures
+for example below method in object oriented programming can be converted to functional interfaces as below.
+
+public void add(int a int b){
+	sop(a+b);
+}
+
+()->{sop(a+b);} or
+()->sop(a+b);
+
+public void add(int a int b){
+	sop(a+b);
+}
+
+(int a, int b)-> {sop(a+b);}
+(a,b)-> sop(a+b);
+
+public String str(String str){
+	return str;
+}
+
+(String str) -> { return str; }
+
+(str) -> return str;
+(str) -> str;
+
+conclusions:
+
+1. a lambda expression can have zero or more number of parameters(arguments).
+
+()->sop("hello");
+(a,b)->return (a+b);
+
+2. usually we can specify type of parameter.. If the compiler expects the type based on the context then we can remove type i.e. not required to mention explicitly.
+
+(int a , int b)->sop(a+b);
+(a+b)->sop(a+b);
+
+3. If multiple parameters present then these parameters should be seperated with comma(,).
+4. If zero number of parameters available then we have to use empty parameter like ()
+()->sop("hello");
+
+5. If only one parameter is available and if the compiler can expect the type we can remove the type and paranthesis also.
+
+(int a)->sop(a);
+(a)-> sop(a);
+a->sop(a);
+
+6. similar to method body lambda expression body also can contain multiple statements. If If more than one statements are present then we have to enclose inside curly braces. If one statement is present then curly braces are optional.
+
+7. once we write lambda expression we can call that expression just like a method, for this functional interfaces are required.
+
+Q. What is the relationship between the lambda expressions and functional interfaces.
+
+Lambda expression represents the implementation of functional interface's only abstract method. 
+--------------------------
+Functional Interfaces:
+If an interface contain only one abstract method, such type of interfaces are called functional interfaces and the method is called 
+functional method or single abstract method (SAM).
+Ex:
+Runnale -> It contains only run() method
+Comparable -> It contains only compareTo() method 
+ActionListener -> It contains only actionPerformed()
+Callable -> It contains only call() method
+Inside functional interface in addition to single Abstract method (SAM) we write any number of default and static methods.
+
+public interface FunctionalDemo{
+public abstract void m1();
+public static String m2();
+public default String functionalDemoDefault();
+}
+
+In Java 8, Sun Micro System introduced @FunctionalInterface annotation to specify that the interface is Functional Interface.
+
+for e.g.
+@Functional 
+public interface FunctionalDemo{
+public abstract void m1();  //abstract
+public static String m2(); 
+public default String functionalDemoDefault();
+}
+
+if we write more than one abstract methods in functional interfaces we get compile time error as 
+"FunctionalDemo is not a functional interface multiple non-overriding abstract methods found in interface FunctionalDemo"
+
+@FunctionalInterface 
+public interface FunctionalDemo{
+public void m1();  //by default abstract
+public String m2(); //by default abstract
+public default String functionalDemoDefault();
+}
+
+@FunctionalInterface
+^
+  FunctionalDemo is not a functional interface
+    multiple non-overriding abstract methods found in interface FunctionalDemo
+2 errors
+
+If we dont declare one abstract method inside functional interface then we get compilation error as 
+"FunctionalDemo is not a functional interface no abstract method found in interface FunctionalDemo"
+@FunctionalInterface
+public interface FunctionalDemo{
+}
+
+@FunctionalInterface
+^
+  FunctionalDemo is not a functional interface
+    no abstract method found in interface FunctionalDemo
+1 error
+
+Functional Interface with respect to Inheritance:
+
+If an interface extends functional interface and does not contain additional abstract method then the child interface is also 
+functional interface.
+
+In short for the interface heirarchy which inherits and has only one abstract method then all those interfaces from the parent interface 
+which declares the abstract method are functional interfaces.
+
+@FunctionalInterface
+public interface FunctionalDemo{
+public void m1();
+}
+
+@FunctionalInterface
+interface FunctionalDemoChild extends FunctionalDemo{
+// no abstract method 
+public static void m2();
+public default void m3();
+}
+
+In this scenario both FunctionalDemo and FunctionalDemoChild both are functional interfaces as both of these have access 
+to the abstract method -> pulic void m1()
+
+however we can have exactly same abstract method in Child functional interface as it is considered a new implementation of 
+abstract method and is allowed and no compile time error is thrown.
+
+@FunctionalInterface
+public interface FunctionalDemo{
+public void m1(); // parent abstract method 
+}
+
+@FunctionalInterface
+interface FunctionalDemoChild extends FunctionalDemo{
+public void m1();  // child abstract method 
+public static void m2();
+public default void m3();
+}
+
+in child functional interface we cant declare any new abstract method otherwise it wont be a functional interface and 
+so using @FunctionalInterface annotation is not allowed. It is completely fine if the child method does not have a new
+abstract method or does not have @FunctionalInterface annotation.
+
+Functional Interfaces Vs Lambda Expressions:
+Once we have written lambda expression, to invoke its functionality functional interface is required.
+We can use functional interface reference variable to refer to the lambda expression, which mean technically we are assigning 
+the only abstract method of the functional interface its behaviour. This is why wherever functional interface concept is applicable, 
+we can use lambda expressions.
+
+e.g.
+
+interface FunctionalDemo{
+public void methodOne();
+}
+
+ class Demo implements FunctionalDemo{
+public void methodOne(){
+ System.out.println("method one execution!");
+}
+}
+
+public class Test{
+public static void main(String[] args){
+FunctionalDemo demo = new Demo();
+demo.methodOne();
+}
+}
+
+javac Test.java
+java Test
+method one execution!
+
+with the concept of lambda expression above code can be considered as object declaration overhead as the things can be much 
+simpler in case of Lambda Expressions and functional interfaces.
+
+@FunctionalInterface
+interface FunctionalDemo{
+public void methodOne();
+}
+
+public class Test{
+public static void main(String[] args){
+FunctionalDemo demo = () ->  System.out.println("method one execution!");
+demo.methodOne();
+}
+}
+
+javac Test.java
+java Test
+method one execution!
+
+----------------------
+sum without lambda expression
+
+interface FunctionalDemo{
+public int sum(int a, int b);
+}
+
+ class Demo implements FunctionalDemo{
+public int  sum(int a, int b){
+  return a+b;
+}
+}
+
+public class Test{
+public static void main(String[] args){
+FunctionalDemo demo = new Demo();
+    System.out.println(demo.sum(10,20));
+}
+}
+
+javac Test.java
+java Test
+30
+
+sum with lambda expression
+
+interface FunctionalDemo{
+public int sum(int a, int b);
+}
+
+ class Demo implements FunctionalDemo{
+public int  sum(int a, int b){
+  return a+b;
+}
+}
+
+public class Test{
+public static void main(String[] args){
+FunctionalDemo demo = (a, b) -> {
+  return a+b;
+};
+    System.out.println(demo.sum(20,30));
+}
+}
+
+javac Test.java
+java Test
+------------------------
+square without functional interface 
+
+interface FunctionalSquare{
+public int square(int num);
+}
+
+ class FunctionalSquareImpl implements FunctionalSquare{
+public int  square(int num){
+  return num*num;
+}
+}
+
+public class Test{
+public static void main(String[] args){
+FunctionalSquare demo = new FunctionalSquareImpl();
+    System.out.println(demo.square(20));
+}
+}
+
+javac Test.java
+java Test
+400
+
+square with lambda expression:
+
+interface FunctionalSquare{
+public int square(int num);
+}
+
+public class Test{
+public static void main(String[] args){
+FunctionalSquare demo =  num -> num*num;
+    System.out.println(demo.square(30));
+}
+}
+javac Test.java
+java Test
+900
+
+----------------
+Runnable without Lambda Expressions
+
+class MyRunnable implements Runnable{
+
+public void run(){
+for(int i=0; i<2; i++){
+  System.out.println(" Child Thread! ");
+}
+}
+}
+
+public class Test{
+public static void main(String[] args){
+  Thread  runnable = new Thread(new MyRunnable());
+  runnable.start();
+for(int i=0; i<2; i++){
+  System.out.println(" Parent Thread! ");
+}
+}
+}
+
+javac Test.java
+java Test
+ Parent Thread! 
+ Parent Thread! 
+ Child Thread! 
+ Child Thread! 
+
+Runnable with Lambda Expression
+
+public class Test{
+public static void main(String[] args){
+  Thread  runnable = new Thread(()->
+  {
+    for(int i=0; i<3; i++){
+      System.out.println(" Child Thread! ");
+      }
+  });
+
+  runnable.start();
+    for(int i=0; i<3; i++){
+      System.out.println(" Parent Thread! ");
+    }
+}
+}
+➜ java Test      
+ Parent Thread! 
+ Parent Thread! 
+ Parent Thread! 
+ Child Thread! 
+ Child Thread! 
+ Child Thread!
+
+Anonymous Inner Class Vs Lambda Expression
+whenever we are using the anonymous inner class there may be a chance of using lambda expression to reduce the  length of the code 
+to reduce complexity of code and to increase readability
+
+thread with anonymous inner class
+public class Test{
+public static void main(String[] args){
+  Thread  runnable = new Thread(new Runnable(){
+    public void run(){
+        for(int i=0; i<2; i++){
+          System.out.println(" Child Thread! ");
+        }
+    }
+  });
+  runnable.start();
+for(int i=0; i<2; i++){
+  System.out.println(" Parent Thread! ");
+}
+}
+}
+
+javac Test.java
+java Test      
+ Parent Thread! 
+ Parent Thread! 
+ Child Thread! 
+ Child Thread! 
+
+anonymous class with lambda expression
+public class Test{
+public static void main(String[] args){
+  Thread  runnable = new Thread(()->
+      {
+         for(int i=0; i<1; i++){
+          System.out.println(" Child Thread! ");
+        }
+      });
+  runnable.start();
+for(int i=0; i<1; i++){
+  System.out.println(" Parent Thread! ");
+}
+}
+}
+
+What are the advantages of Lambda Expressions
+We can reduce the length of the code so that the readability of the code will be improved.
+we can resolve complexity of writing the anonymous inner classes.
+we can provide lambda expressions in place of objects.
+we can pass lambda expression as argument to the methods.
+
+
+Anonymous inner class can extend concrete class, can extend abstract class can implement interface with any number of methods but 
+Lambda Expression can implement an interface with only single abstract method (Functional Interface). Hence If anonymous inner class
+implements functional interface in this particular case only we can use lambda expressions .
+
+Hence wherever anonymous inner class concept is there it might not be possible to replace with lambda expression.
+inside anonymous inner class we can declare instance variable.
+inside anonymous inner class this keyword always refers to current inner class object but not related to the outer class object.
+
+inside lambda expressions we cant declare instance variables.
+whatever variables declared inside lambda expression are simply acts as a local variables.
+within lambda expression this keyword represents the current outer class object reference (ie. enclosing class reference in which the 
+lambda expression is declared.
+
+this in lambda
+--------------
+interface ThisDemo{
+  public void executeLambda(); //just need to abstract which it is by default if we not make it public or default
+}
+public class Test{
+int x = 777;
+public void m1(){
+  ThisDemo demo = () -> {
+    int x = 888;
+    System.out.println("x value in local"+x);
+    System.out.println("x value of this "+this.x);
+  };
+  demo.executeLambda();
+
+}
+public static void main(String[] args){
+ Test t = new Test();
+ t.m1();
+
+}
+}
+
+from lambda expressions we can access enclosing class variables and enclosing method variables direclt.
+the local variables referenced from lambda are implicitely final and hence we can not perform reassignmant of those local variables
+otherwise we get exception.
+
+interface ThisDemo{
+  public void executeLambda(); //just need to abstract which it is by default if we not make it public or default
+}
+public class Test{
+int x = 777;
+public void m1(){
+    int y = 888;
+  ThisDemo demo = () -> {
+    x = 9999;
+    System.out.println("x value in local "+x);
+    System.out.println("x value of this "+y);
+    x=999;
+   // y=0;
+  };
+  demo.executeLambda();
+
+}
+public static void main(String[] args){
+ Test t = new Test();
+ t.m1();
+
+}
+}
+
+a lambda expression can change the value of a class variable but it could not change the value of the variable local to method
+which is eclosing lambda.
+
+
+------------------
+anonymous inner class and lambda expression difference:
+
+anonymous inner class:
+Its a class without name
+It can extend or abstract or concrete classes
+It can implement interface with any number of abstract methods.
+Inside anonymous inner class we can declare instance variables.
+It can be instantiated.
+this refers to anonymous inner class object
+It is still a best way if we are dealing with multiple methods.
+as it is a seperate class at the time of compilation seperate .class file will be generated.
+memory allocation will be on demand whenever we are creating objects.
+
+lambda expressions:
+Its a method without name
+It cant extend or abstract or concrete classes
+It can implement interface with only one abstract method.
+Inside lambda expression we cant declare instance variables. the variables declared simply acts as a local variables.
+It cant be instantiated.
+this refers to enclosing class object.
+It is still a best way if we want to handle interface with single abstract method.
+no seperate .class file is generated rather it is converted to outer class private method.
+It resides in permanant memory or method area.
+
+Default Methods:
+----------------
+upto java 7 every method declared inside interface is by default public and abstract and 
+every variable declared inside interface is by default public static final whether we are declaring or not.
+
+but from java8 version onwards in addition to this, we could also write default concrete methods also inside interface
+which are also known as defender methods.
+we can write default methods as follows.
+
+public interface DefaultDemo{
+  default void printData(){
+	System.out.println("Default Method!");
+  }
+}
+
+these default methods will be by default available to all the implementation classes. based on the requirement the implementation 
+classes can use these method direcly or can override.'
+
+public class Test implements DefaultDemo{
+  default void printData(){
+	System.out.println("Default Method overriden!");
+  }
+}
+
+default methods are also known as defender methods or virtual extension methods
+the main advantage of the default methods is that without affecting the implementation classes we can add new functionality to the 
+interface. means implementation classes are not forced to override or use so even if the interface is changed to add one concrete 
+method the existing functionality will not break.
+
+We cant override Object class methods inside interface as default methods, otherwise we get compile time error.	
+
+public interface Test{
+default int hashCode(){
+    return 10;
+}
+}
+Test.java:3: error: default method hashCode in interface Test overrides a member of java.lang.Object
+default int hashCode(){
+
+Object class methods are by default available to every java class hence It is not required to bring them through default methods.
+-------------------------
+Default Methods Vs Multiple Inheritance
+
+It two interfaces has the default method with the same name then there is a change of ambiguity.(diamond problem) to the implementation classes
+which are implementing both of these interfaces
+to overcome this problem we should compulsory we need to override default method in the implemention class and specify which superclass 
+implementation to be used.
+
+
+interface Left{
+default void m1(){
+System.out.println("interface Left default implementation");
+}
+}
+
+interface Right{
+default void m1(){
+System.out.println("interface Right default implementation");
+}
+}
+
+public class Test implements Left, Right{
+public void m1(){
+System.out.println("Test class method ");
+Left.super.m1();
+}
+
+public static void main(String[] args){
+    Test t = new Test();
+    t.m1();
+}
+}
+
+javac Test.java
+java Test
+Test class method 
+interface Left default implementation
+
+Difference with interface with default method and abstract class
+----------------------------------------------------------------
+even though we can add concrete methods in the form of default methods to the interface, it wont be equal to the abstract class.
+Interface with Default methods:
+inside this interface every variable by default is public static final and there is no chance of instance varaible.
+interface never talks about the state of the object.
+inside interface we cant declare constructors.
+inside interface we cant declare static and instance blocks.
+functional interface with default methods can refer lambda expression.
+inside interface we can't override Object class methods.	
+
+Abstract Class:
+along with the static final variables we can have instance variables as well which might be used by implementation class.
+abstract class can contribute to the state of implementation class.
+inside abstract class we can have constructors.
+inside abstract class we can have static and instance blocks.
+abstract class can't refer lambda expression.
+inside abstract class we can override Object class methods.
+
+
+Static Methods inside interface:
+from java 1.8 along with the default methods we can write the static methods also inside interface to define utility functions.
+interface static methods are not by default available to implementation classes hence by using implementation class reference variable
+we cant  call interface static methods.We should call interface static methods by using interface names only.
+
+interface Interf {
+	public static void sum(int a, int b) {
+		System.out.println("The Sum:"+(a+b));
+	}
+} 
+class Test implements Interf {
+	public static void main(String[] args) {
+		Test t = new Test();
+		t.sum(10, 20); //CE not available to implementation classes either through the object
+		Test.sum(10, 20); //CE or through Class reference
+		Interf.sum(10, 20);
+	}
+}
+As static methods by default not available to the implementation class, overriding concept is not applicable.
+based on our requirements we can have static methods in the implementation classes but it is not overriding.
+
+interface Interf {
+   public static void m1() {}
+}
+class Test implements Interf {
+   public static void m1() {}// valid but not overriding
+}
+
+interface Interf {
+   public static void m1() {}
+}
+class Test implements Interf {
+   public void m1() {}// valid but not overriding
+}
+
+interface Interf {
+   private void m1() {}
+}
+class Test implements Interf {
+   public void m1() {}// valid but not overriding, we can increase the visibility(private -> public) we can not however decrease 
+}
+
+Predicates:
+----------
+A Predicate is a function with a single argument and returns a boolean value.
+to implement a predicate function in Java, Oracle people introduced Predicate interface in java 1.8 (Predicate<T>)
+Predicate interface presents in java.util.function package 
+its a functional interface and contains only one abstract method
+public interface Predicate<T>{
+public abstract boolean test();
+}
+
+as this is a functional interface it can refer to a lambda expression.
+
+example: write a code using Predicate to determine given integer is greater than 10 or not.
+
+import java.util.function.*;
+public class TestGreaterThan10 {
+  public static void main(String[] args){
+    int givennumber = 14;
+    Predicate<Integer> isGreaterThan10 = (Integer num) ->  num>10;
+    System.out.println("is given number greater than 10: "+isGreaterThan10.test(givennumber));
+  }
+}
+
+example: write a code using Predicate to determine given String length is greater than 3 or not
+
+import java.util.function.*;
+public class TestPredicateLengthGreaterThan3 {
+  public static void main(String[] args){
+    String  givenString = "no";
+    Predicate<String> isLengthGreaterThan3= (String str) ->  str.length()>3;
+    System.out.println("is given string size greater than 3: "+isLengthGreaterThan3.test(givenString));
+  }
+}
+example: write a predicate to check if the given collection is empty or not
+import java.util.function.*;
+import java.util.*;
+
+public class PredicateIsEmpty{
+public static void main(String[] args){
+  List<String> list= new ArrayList<String>();
+  list.add("notempty");
+  Predicate<Collection> isCollectionEmpty = (Collection collection) -> collection.isEmpty();
+  System.out.println("is this empty ? " +isCollectionEmpty.test(list));
+}
+}
+
+Predicate Joining:
+Its possible to join predicates into single predicate by using the following methods.
+and()    or()     negate()
+these are exactly same as logical AND OR and COMPLEMENT operator.
+
+import java.util.function.*;
+
+public class PredicateCombinationsDemo{
+  public static void main(String[] args){
+     int[] integers = { 0 , 5, 10, 15, 20, 25, 30};
+     Predicate<Integer> isGreaterThan10 = num -> num>10;
+     Predicate<Integer> isNumberEven = num -> num%2==0;
+
+     System.out.println("numbers greater than 10 are : ");
+     filter(integers, isGreaterThan10);
+
+     System.out.println("\nnumbers which are even are : ");
+     filter(integers, isNumberEven);
+
+     System.out.println("\nnumbers NOT greater than 10 are : ");
+     filter(integers, isGreaterThan10.negate());
+
+     System.out.println("\nnumbers which are greater than 10 AND which are even are : ");
+     filter(integers, isGreaterThan10.and(isNumberEven));
+
+      System.out.println("\nnumbers which are greater than 10 OR which are even are :  ");
+     filter(integers, isGreaterThan10.or(isNumberEven));
+     
+  }
+  public static void filter(int[] integers, Predicate<Integer> predicate){
+    for(Integer i:integers){
+       if(predicate.test(i)){
+          System.out.print(" "+i);
+       }
+    }
+  }
+}
+
+Functions
+---------
+Functions are exactly same as Predicate except that functions can return any type of result but functions should return only one value
+and that value could be any type as per our requirement.
+it is added in java8 and included in java.util.function package.
+functional interface contains only one method apply
+
+public interface Function<T, R>{
+ public R apply(T t)
+}
+
+example: write a function to find the length of the input string
+
+import java.util.function.*;
+
+public class FunctionTest{
+  public static void main(String[] args){
+    String givenString = "sharad";
+    Function<String, Integer> lengthOfString = (String str) -> str.length();
+    System.out.println("length of the givenString is: "+lengthOfString.apply(givenString));
+  }
+
+}
+
+Difference between Predicate and Function
+----------------------------------------
+Predicate:
+to implement conditional checks we go for Predicate
+Predicate can take one argument type which represents Input argument type Predicate<T>
+Predicate interface defines only one method (public boolean test(T t))
+Predicate can return only boolean value
+
+Function:
+to perform any operation and to return result as any Object we should go for function
+Function can take two argument type, first one represents the input argument and the second one represents the return type. Function<T,R>
+Function interface defines only one method (public R apply(T t)
+Function can return any Object type.
+
+Predicate is a boolean values function and() or() negate() are the default methods present inside of Predicate interface.
+
+Method and constructor references using :: Operator
+---------------------------------------------------
+Functional interface methods can be mapped to our specified method by using :: operator. this is called method reference.
+our specified method can be either static or instance method.
+Functional method and our specified method should have same argument types except this the remaining things like return type ,
+methodname or modifiers need not to match 
+
+if our specified method is a static method-> ClassName::methodName
+if our specified method is an instance method-> object::methodName
+
+Functional interfaces can refer Lambda Expression and also functional interfaces can also refer method reference. Hence lambda expression
+can be replaced with method reference. Hence method reference is alternate syntax to lambda expression.
+
+example: method reference to a static method 
+
+import java.util.function.*;
+public class TestStaticMethodReference{
+public static void m1(){
+  for(int i=0;i<3;i++){
+    System.out.println("from static method reference-> "+i);
+  }
+}
+public static void main(String[] args){
+  Runnable r = TestStaticMethodReference::m1;
+  Thread t = new Thread(r);
+  t.start();
+  for(int i=0;i<3;i++){
+    System.out.println("from main thread-> "+i);
+  }
+}
+}
+
+example: method reference to a instance method
+
+import java.util.function.*;
+interface InstanceMethodReference{
+ public void m1(int i);
+}
+public class TestInstanceMethodReference{
+public void m1(int i){
+   System.out.println("from instance method reference"+i);
+}
+public static void main(String[] args){
+  TestInstanceMethodReference testMethodRef = new TestInstanceMethodReference();
+  InstanceMethodReference instanceMethodRef = testMethodRef::m1;
+  instanceMethodRef.m1(10);
+}
+}
+
+only the argument types of the functional interface method and our specified method needs to match rest of the things like return type
+method name modifiers are not required to match.
+
+Constructor Reference:
+---------------------
+the same way as method reference we can also refer to constructors also.
+syntax
+ClassName::new
+InterfaceName f = sample::new
+
+example: functional interface referring to Sample class constructor
+
+import java.util.function.*;
+class Sample{
+private String s;
+Sample(String s){
+this.s=s;
+System.out.println("Constructor executed"+ s);
+}
+}
+
+interface Interf{
+ public Sample get(String s);
+}
+public class TestConstructorRef{
+ public static void main(String[] args){
+   Interf f = s-> new Sample(s);
+   f.get(" using Lambda Expression");
+   f=Sample::new;
+   f.get(" using Constructor reference");
+ }
+}
+In both method and constructor reference compulsory the argument types must be matched.
+
+Streams:
+--------
+to process Objects of the Collection Streams concepts is introduced.
+
+What is the difference between java.util.streams and java.io.streams package classes?
+java.util.streams package is to process the Collection objects It represents streams of objects from Collection, but 
+java.io.streams package classes are used to process the binary and character data to/from file and java code.
+
+What is the difference between Streams and Collections?
+If we want to represent the group of objects as a single object then we should go for collection.
+If we want to process the group of objects from Collection then we should go for Streams.
+We can create a stream oobject to the collection by using stream() method method of Collection interface.
+stream() method is default method added to the Collection in version 1.8
+
+public default Stream stream();
+
+for.e.g.
+Stream s = c.stream();
+
+We can process Objects in two phases.
+Configuration 
+Processing
+
+We can configure either by using the filter or the map mechanism
+
+Filtering
+---------
+We can configure a filter to filter elements from the collection based on some boolean condition or by using filter() method of Stream interface
+
+public Stream filter(Predicate<T> predicate)
+here predicate can be a boolean valued function or lambda expression.
+
+e.g. 
+Stream s = c.stream();
+to filter elements of collection on some boolean condition we should go for filter() method.
+
+example: 
+
+import java.util.function.*;
+import java.util.stream.*;
+import java.util.*;
+
+public class FilterDemo{
+public static void main(String[] args){
+  List<Integer> numbers = new ArrayList<>();
+  List<Integer> evenNumbers = new ArrayList<>();
+  numbers.add(1); numbers.add(4); numbers.add(7); numbers.add(9);
+  numbers.stream().filter(num->num%2==0).peek(System.out::println).collect(Collectors.toList());
+  //evenNumbers = numbers.stream().filter(num->num%2==0).collect(Collectors.toList());
+  //evenNumbers.forEach(System.out::println);
+}
+}
+
+Mapping:
+-------
+If we want to create some new Object for every Object present in the Collection, based on our own requirement then we should go for 
+map() method of Stream interface.
+public Stream map(Function f); this can be a lambda expression.
+Stream s = c.stream();
+Stream s2 = s.map(value -> value+10);
+
+Once we are done with the configuration of the object using filter and map we can process objects by using several methods.
+
+2. Processing:
+--------------
+processing can be done by using any of the following method
+collect()
+count()
+sorted()
+min() and max()
+forEach()
+toArray()
+Stream.of() 
+
+Processing Stream using collect() method of Stream interface
+------------------------------------------------------------
+example: to collect only even numbers from the ArrayList 
+1 without streams
+-----------------
+
+public class FilterAndCollectWithoutStreamsTest{
+  public static void main(String[] args){
+   List<Integer> numbers = Arrays.asList{1,3,3,4,4,5,3,3,2};
+   List<Integer> evenNumbers = new ArrayList<>();
+
+   for( Integer num : numbers){
+    if(num%2==0){
+      evenNumbers.add(num);
+    }
+   }
+   evenNumber.forEach(System.out::println);
+  }
+}
+2 with streams
+--------------
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
+public class FilterAndCollectStreamsTest{
+  public static void main(String[] args){
+   List<Integer> numbers = Arrays.asList(1,3,3,4,4,5,3,3,2);
+   List<Integer> evenNumbers = new ArrayList<>();
+
+   evenNumbers = numbers.stream().filter(n->n%2==0).collect(Collectors.toList());
+   evenNumbers.forEach(System.out::println);
+  }
+}
+
+example for map and collect you have products with name and price. you need to change the name to uppercase and price prefixed discounted 
+
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
+class Product{
+ private String name;
+ private double price;
+ public Product(String name, double price){
+  this.name=name;
+  this.price=price;
+ }
+ public String getName(){
+   return this.name;
+ }
+  public double getPrice(){
+   return this.price;
+ }
+ public String toString(){
+  return "name: "+name+" price "+price;
+ }
+}
+
+public class FilterandMapDemo{
+  public static void main(String[] args){
+   List<Product> products = new ArrayList<Product>();
+   Product p1 = new Product("shirt",2322); 
+   Product p2 = new Product("pant",2000);
+   products.add(p1); products.add(p2);
+
+   List<String> productsString = products.stream().map(product-> ""+product.getName().toUpperCase()+" Discounted Price: "+product.getPrice()).
+     collect(Collectors.toList());
+    productsString.forEach(System.out:: println);
+
+  }
+}
+
+processing by count
+-------------------
+this method returns the number of elements present in the stream
+public long count()
+import java.util.*;
+import java.util.function.*;
+public class StreamCountDemo{
+  public static void main(String[] args){
+   List<Integer>  numbers= Arrays.asList(1,4,5,3,2,5,5,8);
+   long count = numbers.stream().filter(n->n%2==0).count();
+   System.out.println("count of even numbers are: "+count);
+  }
+}
+
+processing by sorted 
+--------------------
+import java.util.*;
+import java.util.function.*;
+public class StreamSortedDemo{
+  public static void main(String[] args){
+   List<Integer>  numbers= Arrays.asList(1,4,5,3,2,5,5,8);
+    List<Integer>  sortedNums = numbers.stream().sorted();
+   System.out.println("the sorted numbers are: ");
+   sortedNums.forEach(System.out::println);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

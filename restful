@@ -544,24 +544,289 @@ which are implementing both of these interfaces
 to overcome this problem we should compulsory we need to override default method in the implemention class and specify which superclass 
 implementation to be used.
 
+
 interface Left{
-default m1(){
-System.out.println("interface Left default implementation")
+default void m1(){
+System.out.println("interface Left default implementation");
 }
 }
 
 interface Right{
-default m1(){
-System.out.println("interface Right default implementation")
+default void m1(){
+System.out.println("interface Right default implementation");
 }
 }
 
-interface Test implements Left, Right{
+public class Test implements Left, Right{
 public void m1(){
-System.out.println("Test class method ")  or 
+System.out.println("Test class method ");
 Left.super.m1();
 }
+
+public static void main(String[] args){
+    Test t = new Test();
+    t.m1();
 }
+}
+
+javac Test.java
+java Test
+Test class method 
+interface Left default implementation
+
+Difference with interface with default method and abstract class
+----------------------------------------------------------------
+even though we can add concrete methods in the form of default methods to the interface, it wont be equal to the abstract class.
+Interface with Default methods:
+inside this interface every variable by default is public static final and there is no chance of instance varaible.
+interface never talks about the state of the object.
+inside interface we cant declare constructors.
+inside interface we cant declare static and instance blocks.
+functional interface with default methods can refer lambda expression.
+inside interface we can't override Object class methods.	
+
+Abstract Class:
+along with the static final variables we can have instance variables as well which might be used by implementation class.
+abstract class can contribute to the state of implementation class.
+inside abstract class we can have constructors.
+inside abstract class we can have static and instance blocks.
+abstract class can't refer lambda expression.
+inside abstract class we can override Object class methods.
+
+
+Static Methods inside interface:
+from java 1.8 along with the default methods we can write the static methods also inside interface to define utility functions.
+interface static methods are not by default available to implementation classes hence by using implementation class reference variable
+we cant  call interface static methods.We should call interface static methods by using interface names only.
+
+interface Interf {
+	public static void sum(int a, int b) {
+		System.out.println("The Sum:"+(a+b));
+	}
+} 
+class Test implements Interf {
+	public static void main(String[] args) {
+		Test t = new Test();
+		t.sum(10, 20); //CE not available to implementation classes either through the object
+		Test.sum(10, 20); //CE or through Class reference
+		Interf.sum(10, 20);
+	}
+}
+As static methods by default not available to the implementation class, overriding concept is not applicable.
+based on our requirements we can have static methods in the implementation classes but it is not overriding.
+
+interface Interf {
+   public static void m1() {}
+}
+class Test implements Interf {
+   public static void m1() {}// valid but not overriding
+}
+
+interface Interf {
+   public static void m1() {}
+}
+class Test implements Interf {
+   public void m1() {}// valid but not overriding
+}
+
+interface Interf {
+   private void m1() {}
+}
+class Test implements Interf {
+   public void m1() {}// valid but not overriding, we can increase the visibility(private -> public) we can not however decrease 
+}
+
+Predicates:
+----------
+A Predicate is a function with a single argument and returns a boolean value.
+to implement a predicate function in Java, Oracle people introduced Predicate interface in java 1.8 (Predicate<T>)
+Predicate interface presents in java.util.function package 
+its a functional interface and contains only one abstract method
+public interface Predicate<T>{
+public abstract boolean test();
+}
+
+as this is a functional interface it can refer to a lambda expression.
+
+example: write a code using Predicate to determine given integer is greater than 10 or not.
+
+import java.util.function.*;
+public class TestGreaterThan10 {
+  public static void main(String[] args){
+    int givennumber = 14;
+    Predicate<Integer> isGreaterThan10 = (Integer num) ->  num>10;
+    System.out.println("is given number greater than 10: "+isGreaterThan10.test(givennumber));
+  }
+}
+
+example: write a code using Predicate to determine given String length is greater than 3 or not
+
+import java.util.function.*;
+public class TestPredicateLengthGreaterThan3 {
+  public static void main(String[] args){
+    String  givenString = "no";
+    Predicate<String> isLengthGreaterThan3= (String str) ->  str.length()>3;
+    System.out.println("is given string size greater than 3: "+isLengthGreaterThan3.test(givenString));
+  }
+}
+example: write a predicate to check if the given collection is empty or not
+import java.util.function.*;
+import java.util.*;
+
+public class PredicateIsEmpty{
+public static void main(String[] args){
+  List<String> list= new ArrayList<String>();
+  list.add("notempty");
+  Predicate<Collection> isCollectionEmpty = (Collection collection) -> collection.isEmpty();
+  System.out.println("is this empty ? " +isCollectionEmpty.test(list));
+}
+}
+
+Predicate Joining:
+Its possible to join predicates into single predicate by using the following methods.
+and()    or()     negate()
+these are exactly same as logical AND OR and COMPLEMENT operator.
+
+import java.util.function.*;
+
+public class PredicateCombinationsDemo{
+  public static void main(String[] args){
+     int[] integers = { 0 , 5, 10, 15, 20, 25, 30};
+     Predicate<Integer> isGreaterThan10 = num -> num>10;
+     Predicate<Integer> isNumberEven = num -> num%2==0;
+
+     System.out.println("numbers greater than 10 are : ");
+     filter(integers, isGreaterThan10);
+
+     System.out.println("\nnumbers which are even are : ");
+     filter(integers, isNumberEven);
+
+     System.out.println("\nnumbers NOT greater than 10 are : ");
+     filter(integers, isGreaterThan10.negate());
+
+     System.out.println("\nnumbers which are greater than 10 AND which are even are : ");
+     filter(integers, isGreaterThan10.and(isNumberEven));
+
+      System.out.println("\nnumbers which are greater than 10 OR which are even are :  ");
+     filter(integers, isGreaterThan10.or(isNumberEven));
+     
+  }
+  public static void filter(int[] integers, Predicate<Integer> predicate){
+    for(Integer i:integers){
+       if(predicate.test(i)){
+          System.out.print(" "+i);
+       }
+    }
+  }
+}
+
+Functions
+---------
+Functions are exactly same as Predicate except that functions can return any type of result but functions should return only one value
+and that value could be any type as per our requirement.
+it is added in java8 and included in java.util.function package.
+functional interface contains only one method apply
+
+public interface Function<T, R>{
+ public R apply(T t)
+}
+
+example: write a function to find the length of the input string
+
+import java.util.function.*;
+
+public class FunctionTest{
+  public static void main(String[] args){
+    String givenString = "sharad";
+    Function<String, Integer> lengthOfString = (String str) -> str.length();
+    System.out.println("length of the givenString is: "+lengthOfString.apply(givenString));
+  }
+
+}
+
+Difference between Predicate and Function
+----------------------------------------
+Predicate:
+to implement conditional checks we go for Predicate
+Predicate can take one argument type which represents Input argument type Predicate<T>
+Predicate interface defines only one method (public boolean test(T t))
+Predicate can return only boolean value
+
+Function:
+to perform any operation and to return result as any Object we should go for function
+Function can take two argument type, first one represents the input argument and the second one represents the return type. Function<T,R>
+Function interface defines only one method (public R apply(T t)
+Function can return any Object type.
+
+Predicate is a boolean values function and() or() negate() are the default methods present inside of Predicate interface.
+
+Method and constructor references using :: Operator
+---------------------------------------------------
+Functional interface methods can be mapped to our specified method by using :: operator. this is called method reference.
+our specified method can be either static or instance method.
+Functional method and our specified method should have same argument types except this the remaining things like return type ,
+methodname or modifiers need not to match 
+
+if our specified method is a static method-> ClassName::methodName
+if our specified method is an instance method-> object::methodName
+
+Functional interfaces can refer Lambda Expression and also functional interfaces can also refer method reference. Hence lambda expression
+can be replaced with method reference. Hence method reference is alternate syntax to lambda expression.
+
+example: method reference to a static method 
+
+import java.util.function.*;
+public class TestStaticMethodReference{
+public static void m1(){
+  for(int i=0;i<3;i++){
+    System.out.println("from static method reference-> "+i);
+  }
+}
+public static void main(String[] args){
+  Runnable r = TestStaticMethodReference::m1;
+  Thread t = new Thread(r);
+  t.start();
+  for(int i=0;i<3;i++){
+    System.out.println("from main thread-> "+i);
+  }
+}
+}
+
+example: method reference to a instance method
+
+import java.util.function.*;
+interface InstanceMethodReference{
+ public void m1(int i);
+}
+public class TestInstanceMethodReference{
+public void m1(int i){
+   System.out.println("from instance method reference"+i);
+}
+public static void main(String[] args){
+  InstanceMethodReference instanceMethodRef = TestInstanceMethodReference::m1;
+  instanceMethodRef.m1(10);
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

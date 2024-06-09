@@ -1212,6 +1212,182 @@ public class NormalLeapDemo{
     }
 }
 
+Some Stream API coding Interview Questions:
+Find the Second Largest Number in an Array:
+Write a method that takes an array of integers as input and returns the second largest number in the array using Java Stream API.
+
+import java.util.stream.*;
+import java.util.*;
+
+public class SecondHighestIntegerAmongIntArray{
+    public static void main(String[] args){
+        Integer[] integers = new Integer[] {1,2,3,4,3,2,2,4,5,7,9};
+        List<Integer> sortedInts = new ArrayList<>();
+        Optional<Integer> secondHighest = Stream.of(integers).sorted((int1, int2) -> -int1.compareTo(int2)).skip(1).findFirst();
+        if(secondHighest.isPresent())
+           System.out.println(" The second highest integer in the array is: "+secondHighest.get());
+    }
+}
+using Arrays.of
+
+package org.example;
+import java.util.stream.*;
+import java.util.*;
+
+public class SecondHighestIntegerAmongIntArray{
+    public static void main(String[] args){
+        Integer[] integers = new Integer[] {1,2,3,4,3,2,2,4,8,7,9};
+        Optional<Integer> secondHighest = Arrays.stream(integers).distinct().sorted(Comparator.reverseOrder()).skip(1).findFirst();
+        if(secondHighest.isPresent())
+           System.out.println(secondHighest.get());
+    }
+}
+
+
+Grouping and Counting Characters:
+Write a method that takes a String as input and returns a Map<Character, Long> where each character in the String is the key and its occurrence count is the value, using Java Stream API.
+
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.*;
+import java.util.*;
+public class FindCharCountInString {
+    public static void main(String[] args){
+        String s = "sharad";
+        Map<Character, Long> charCount = getCountOfCharacters(s);
+        charCount.keySet().forEach(key->{
+            System.out.println("character count of char "+key+" is "+charCount.get(key));
+        });
+    }
+    public static Map<Character, Long> getCountOfCharacters(String str){
+        return str.chars()
+                .mapToObj(c -> (char) c) // Convert each int to char
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    }
+}
+
+Finding Duplicates in a List:
+Write a method that takes a List of integers as input and returns a Set<Integer> containing only the duplicate elements in the list using Java Stream API.
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+public class DuplicateFinder {
+    public static Set<Integer> findDuplicates(List<Integer> numbers) {
+        return numbers.stream()
+                      .filter(n -> numbers.indexOf(n) != numbers.lastIndexOf(n))
+                      .collect(Collectors.toSet());
+    }
+
+    public static void main(String[] args) {
+        List<Integer> numbers = List.of(1, 2, 3, 4, 3, 5, 2, 6, 7, 8, 9, 1, 1);
+        Set<Integer> duplicates = findDuplicates(numbers);
+        System.out.println("Duplicates: " + duplicates);
+    }
+}
+Filtering Lists of Objects:
+Suppose you have a list of Person objects (with attributes like name, age, etc.). Write a method that takes a List<Person> as input and returns a List<Person> containing only the persons with unique ages, using Java Stream API.
+package org.example;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
+
+
+public class UniqueAgePeople {
+    public static void main(String[] args) {
+        List<Person> people = List.of(
+                new Person("Alice", 21),
+                new Person("Bob", 30),
+                new Person("Charlie", 25),
+                new Person("David", 40),
+                new Person("Eve", 30),
+                new Person("Frank", 40)
+        );
+        List<Person> uniqueAges = findUniquePeople(people);
+        System.out.println("Persons with unique ages: " + uniqueAges);
+    }
+    public static List<Person> findUniquePeople(List<Person> people){
+        Map<Integer, Long> ageCountMap = people.stream()
+                .collect(Collectors.groupingBy(Person::getAge, Collectors.counting()));
+        return people.stream()
+                .filter(person -> ageCountMap.get(person.getAge()) == 1)
+                .collect(Collectors.toList());
+    }
+}
+
+class Person{
+    private String name;
+    private int age;
+    // Constructor, getters, and setters
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public int getAge() {
+        return age;
+    }
+    public void setAge(int age) {
+        this.age = age;
+    }
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+
+Flat Mapping Nested Lists:
+Given a List<List<Integer>>, write a method that flattens it into a single List<Integer> using Java Stream API.
+
+package org.example;
+
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Flattener {
+    public static void main(String[] args) {
+        List<List<Integer>> listOfIntegerList = new ArrayList<List<Integer>>();
+        List<Integer> result = new ArrayList<Integer>();
+        List<Integer> list1 = new ArrayList<>();
+        list1.add(Integer.valueOf(1));
+        list1.add(Integer.valueOf(2));
+        list1.add(Integer.valueOf(1));
+        list1.add(Integer.valueOf(3));
+        list1.add(Integer.valueOf(5));
+
+        List<Integer> list2 = new ArrayList<>();
+        list2.add(Integer.valueOf(1));
+        list2.add(Integer.valueOf(4));
+        list2.add(Integer.valueOf(5));
+        list2.add(Integer.valueOf(4));
+        list2.add(Integer.valueOf(6));
+
+        listOfIntegerList.add(list1);
+        listOfIntegerList.add(list2);
+
+        result = listOfIntegerList.stream()
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+
+        System.out.println(result);
+    }
+}
+
+
 
 
 

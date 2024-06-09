@@ -1,0 +1,1411 @@
+   ServletS SyllabuS (5 uNItS)
+1) The Servlet Technology Model .......................................................................................... 6
+ Servlet Life Cycle .................................................................................... 21
+ Http Methods ......................................................................................... 27
+ ServletRequest ....................................................................................... 31
+ ServletResponse ..................................................................................... 46
+2) Web Application Folder Structure & web.xml .................................................................. 54
+ Web Application Folder Structure ........................................................ 54
+ web.xml ............................................................................................... 56
+ war File ................................................................................................ 79
+3) The Web Container Model .............................................................................................. 82
+ ServletContext ...................................................................................... 82
+ Servlet Scopes and Attributes ................................................................ 86
+ RequestDispatcher ................................................................................ 92
+ Filters .................................................................................................... 105
+ Wrappers .............................................................................................. 117
+4) Session Management .................................................................................................... 122
+ Session API ......................................................................................... 122
+ Cookies ............................................................................................... 131
+ url rewriting ........................................................................................ 137
+ Hidden Form Fields ............................................................................. 139
+ Listeners ............................................................................................. 142
+5) Web Security ................................................................................................................. 157
+ Basic Terminology ............................................................................ 157
+ Types of Authentication ................................................................... 158
+ Declarative Security .......................................................................... 160
+ Programmatic Security ..................................................................... 167
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+    1
+ 
+        OCWCD Bits
+Unit-1: The Servlet Technology Model ....................................................................................... 172 Unit- 2: The Structure and Deployment of Web Applications ..................................................... 180 Unit- 3: The Web Container Model ............................................................................................ 193 Unit-4: Session Management ..................................................................................................... 207 Unit-5 : Web Application Security .............................................................................................. 218
+    2
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+ 
+        Detailed Information Unit-1: The Servlet Technology Model
+     Objectives
+  For each of the HTTP Methods (such as GET, POST, HEAD, and so on) describe the purpose of the method and the technical characteristics of the HTTP Method protocol, list triggers that might cause a Client (usually a Web browser) to use the method; and identify the HttpServlet method that corresponds to the HTTP Method.
+ Using the HttpServletRequest interface, write code to retrieve HTML form parameters from the request, retrieve HTTP request header information, or retrieve cookies from the request.
+ Using the HttpServletResponse interface, write code to set an HTTP response header, set the content type of the response, acquire a text stream for the response, acquire a binary stream for the response, redirect an HTTP request to another URL, or add cookies to the response.
+ Describe the purpose and event sequence of the servlet life cycle: (1) servlet class loading, (2) servlet instantiation, (3) call the init method, (4) call the service method, and (5) call destroy method.
+Unit- 2: The Structure and Deployment of Web Applications
+Objectives
+ Construct the file and directory structure of a Web Application that may contain
+ static content,
+ JSP pages,
+ servlet classes,
+ the deployment descriptor,
+ tag libraries,
+ JAR files, and
+ Java class files; and describe how to protect resource files from HTTP
+access.
+ Describe the purpose and semantics of the deployment descriptor.
+ Construct the correct structure of the deployment descriptor.
+ Explain the purpose of a WAR file and describe the contents of a WAR file, how one may
+be constructed
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+    3
+ 
+        Unit-4: Session Management
+ Objectives
+  Write servlet code to store objects into a session object and retrieve objects from a session object.
+ Given a scenario describe the APIs used to access the session object, explain when the session object was created, and describe the mechanisms used to destroy the session object, and when it was destroyed.
+ Using session listeners, write code to respond to an event when an object is added to a session, and write code to respond to an event when a session object migrates from one VM to another.
+ Given a scenario, describe which session management mechanism the Web container could employ, how cookies might be used to manage sessions, how URL rewriting might be used to manage sessions, and write servlet code to perform URL rewriting.
+Unit-5 : Web Application Security
+Objectives
+ Based on the servlet specification, compare and contrast the following security mechanisms:
+ Authentication,
+ Authorization,
+ Data Integrity, and  Confidentiality
+ In the deployment descriptor, declare a security constraint, a Web resource, the transport guarantee, the login configuration, and a security role.
+ Compare and contrast the authentication types (BASIC, DIGEST, FORM, and CLIENT-CERT); describe how the type works; and given a scenario, select an appropriate type.
+    4
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+ 
+        Advanced Java
+With Core Java knowledge we can develop Stand Alone Applications.
+The applications which are running on a single machine are called stand alone applications. Eg: Calculator, MS Word
+Any Core Java application
+If we want to develop web applications then we should go for Advanced Java.
+The applications which are providing services over the web, are called web applications Eg: durgasoftvideos.com,gmail.com,facebook.com,durgasoft.com
+In Java we can develop web applications by using the following technologies...
+JDBC Servlets JSPs
+Where ever Presentation logic is required i.e to display something to the end user then we should go for JSP. i.e JSP meant for View Component.
+Eg: display login page display inbox page display error page display result page etc..
+Where ever some processing logic is required then we should go for Servlet. i.e Servlet meant for Processing Logic/Business Logic. Servlet will always work internally.
+Eg: Verify User
+Communicate with database Process end user's data
+etc..
+From Java application(Normal Java class or Servlet) if we want to communicates with Database then we should go for JDBC.
+Eg: To get Astrology information from database To get mails information from database
+In Java there are 3 editions are available
+1. Java Standard Edition (JSE | J2SE) 2. Java Enterprise Edition(JEE | J2EE) 3. Java Micro Edition (JME | J2ME)
+JDBC is the part of JSE
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+   5
+ 
+        Servlets and JSPs are the part of JEE
+Current version of JSE is Java 1.8 Current version of JDBC is :4.2V
+Current version of JEE is 7.0 Current version of Servlets: 3.1V Current version of JSP is: 2.3V
+Current versions are: JDBC 4.2V
+Servlets 3.1V
+JSPs 2.3V
+   6
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+ 
+        Unit 1: The Servlet Technology Model
+Web application:
+The application which is developed only by using web related technologies(like html,xml,java script,angular js,servlets,jsps etc)is called web application.
+eg: durgasoftvideos.com,gmail.com,durgasoft.com,facebook.com etc..
+Web application can provide services over the web to the end users.
+Web server:
+Once we developed web application ,we required special software to run that application.This special software is nothing but web server.
+Web server provides environment to run web applications.
+Eg:
+Tomcat
+Oracle Http Server(OHS) Resin
+JETTY
+Lighttpd..
+Deployment and Undeployment:
+The process of placing web application inside web server is called deployment.
+The process of removing web application from the web server is called undeployment.
+Web client:
+It is also known as User-Agent.To send a request to web server a special software is required which is nothing but web client.i.e By using web client we can communicate with web server.
+Eg:
+The most commonly used web client is browser,which is GUI Based(chrome,mozilla..)
+There are several CUI Based web clients also CURL,lynx etc
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+       7
+ 
+         request
+    Web Application
+     Web Client
+response
+Static Response vs Dynamic Response:
+The response which won't be changed from person to person and time to time,such type of response is called static response.
+eg: login page of gmail
+home page of icicibank
+The response which is varied from person to person and time to time,such type of response is called dynamic response.
+eg: inbox page of gmail
+balance information of icicibank
+Web Programming for Static Response:
+Web Server
+     request
+      Static Files
+  1. Client sends a request for static file to the server.
+2. Server searches whether requested resource is available or not
+3. If the requested resource is available then server will provide that file as response.
+4.If the requested resource is not avaialble then we will get 404 status code saying requested resource is not avaialable.
+Note: To serve static files , no processing is required at server side. Hence web server always Loves to serve static files.
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+Search
+   Web Client
+response
+Web Server
+  8
+ 
+        Web programming for dynamic response:
+   request
+     response
+Web Server
+Search
+ Static Files
+   Web Client
+   Helper Application
+ client sends a request to the web server.
+Web server will check whether the request is for static or for dynamic information based on url.
+If it is for static information then web server will search for that static file.If it is available then server will provide that static file as response.If it is not available then server will provide 404 status code saying requested resource is not available.
+If the request is for dynamic information then web server will forward the request to some helper application.
+Helper application will analyze request,process request and generates required dynamic response.
+Helper application forwards that response to web server and web server inturn forward that response to the client.
+Hence to generate dynamic responses at server side some helper application is required.The following are various helper applications..
+Servlet
+JSP
+ASP
+PHP
+CGI
+COLD FUSION etc..
+Servlet:
+Servlet is a server side webcomponent which is responsible to generate dynamic responses. Total Servlet life cycle is managed by web container.
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+Web Container
+Servlet
+JSP
+ASP
+PHP
+CGI
+Cold Fusion.......
+   9
+ 
+        Note:
+Web container is a big assistant to the programmer. It reduces the complexity of programming by managing total life cycle of servlet.
+Types of web containers:
+There are 3 types of web containers are possible.
+1. Stand Alone web containers 2. In process web containers 3. Out process web containers
+1. Stand Alone web containers:
+    Web Container
+Web Server
+Both web server and web container are available as a single integrated component,such type of web containers are called stand alone web containers.
+Eg: Tomcat
+2. In Process Web Container:
+Web Container is
+Part of Web Server
+    Web Server
+ Web Container
+Machine
+Web container is not part of web server.
+web container is connected to the web server as plug-in and both web server and web container are running in the same address space(same machine),such type of web containers are called in process web containers.
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+Apache Web Server
+IBM Web Container
+    10
+ 
+        The main advantage of in process web containers is both web server and web container need not be from the same vendor. We can use Apache web server and weblogic web container.
+The type of web containers are suitable for small scale applications. 3. Out Process web containers:
+   Front-End Machine
+Back-End Machine
+Apache Web Server
+IBM Web Container
+Web Server
+    Web Container
+ Web container is not part of web server.
+Web server and web container are running on different machines .Web container is attached to the web server externally.
+We can configure Front end Apache web server to forward request to the back end IBM web container.
+This type of web containers are best suitable for real time applications. Tomcat components:
+Web Server
+  Web Container
+   Servlet Container OR
+Servlet Engine (CATALINA)
+JSP Container OR
+JSP Engine (JASPER)
+Every web server internally contains web container.
+web container is responsible to manage and execute servlets and jsps.
+Internally web container contains two components
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+  11
+ 
+        1. Servlet Container 2. JSP container
+1. Servlet Container:
+It is also known as Servlet Engine.
+It is responsible to manage and execute Servlet components. In Tomcat servlet container's name is CATALINA
+2. JSP container:
+It is also known as JSP Engine.
+It is responsible to manage and execute JSP Components. In Tomcat JSP Container's name is JASPER.
+How Servlet Technology works:
+     req-1
+req-2
+req-n
+Thread - 1
+Thread - 2
+: : :
+Thread - n
+Servlet Object
+          For every Servlet, web container will creates only one object.
+For every request, web container will allocate seperate thread,which is responsible to process that request.Hence servlet follows "Single Instance MultiThreaded Model".
+Servlet API:
+Servlet API defines the following 2 packages
+1. javax.servlet package
+2. javax.servlet.http package
+1. javax.servlet:
+This package defines several classes and interfaces used for developing protocol independent servlets(Generic Servlets)
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+    12
+ 
+        2. javax.servlet.http :
+This package defines several classes and interfaces which can be used to develop Http protocol based servlets.
+Important interfaces of javax.servlet package:
+1.Servlet 2.ServletRequest 3.ServletResponse 4.ServletConfig 5.ServletContext 6.RequestDispatcher 7.SingleThreadModel
+1.Servlet (I):
+Every Servlet in Java should implements Servlet Interface either directly OR indirectly.
+This Interface defines the most common Methods which are applicable for any Servlet Object. The Life Cycle Methods of Servlet are defined in this Interface only.
+public class FirstServlet implements Servlet {
+}
+2. ServletRequest(I):
+For every request web container creates one request object. ServletRequest object holds end user provided information.
+Servlet can use this request object to get end user's provided information.
+3. ServletResponse(I):
+For every request web container creates one response object.
+Servlet can use response object to prepare and send response to end user.
+4.ServletConfig(I):
+For every Servlet web container will creates a seperate config object to hold its configuration information.
+Servlet can use this config object to get its configuration information.
+5. ServletContext(I):
+For every web application web container creates a seperate context object to hold application level configuration information.
+Servlet can use this context object to get application level configuration information.
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+         13
+ 
+        Note: ServletConfig is per Servlet where as ServletContext is per web application.
+6.RequestDispatcher(I):
+We can use RequestDispatcher to dispatch request from one servlet to another servlet.
+7. SingleThreadModel(I):
+Single servlet object can be accessed by multiple threads simultaneously and hence there may be a chance of data inconsistency problems. i.e servlet by default not thread safe.
+To overcome this problem we should go for SingleTheadModel.
+If our servlet class implements SingleThreadModel then our servlet object can be accessed by only one thread at a time.
+public class FirstServlet implements Servlet,SingleThreadModel {
+}
+The main advantage of SingleThreadModel is threads will be executed one by one and hence data inconsistency problems will be resolved.
+But the main disadvantage of SingleThreadModel is, it increases waiting time of Threads and creates performance problems.Hence it is not recommended to use SingleThreadModel and it is deprecated in Servlet 2.4V.
+Instead of SingleThreadModel it is recommended to use synchronized keyword.
+SingleThreadModel interface does not contain any methods and it is marker interface.Internally JVM is responsible to provide required ability.
+Important classes of javax.servlet package:
+1.GenericServlet 2.ServletInputStream 3.ServletOutputStream 4.ServletException
+1.GenericServlet:
+GenericServlet implements Servlet interface.
+GenericServlet acts as base class to develop protocol independent servlets. Eg:
+public class FirstServlet extends GenericServlet
+{
+}
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+      14
+ 
+        2. ServletInputStream:
+We can use ServletInputStream to read binary data send by end user.
+3. ServletOutputStream:
+We can use ServletOutputStream to write binary data to the response. 4.ServletException:
+while processing our request if servlet faces any problem then we will get ServletException
+Servlet(I):
+Every servlet in java should implements Servlet interface either directly or indirectly.
+Servlet interface defines the most common methods which are applicable for any servlet. Servlet interface defines the following 5 methods
+1.init()
+2.service() 3.destroy() 4.getServletConfig() 5.getServletInfo()
+1.init() method:
+public void init(ServletConfig config) throws ServletException
+This method will be called automatically by web container to perform initialization activities after servlet instantiation immediately.
+Once init() method completes then only servlet is in a position to provide service.
+2. service() method:
+public void service(ServletRequest req,ServletResponse resp)throws ServletException,IOException
+This method will be executed automatically by web container for every request to provide required response.
+Total service logic,we have to write in this method only. 3.destroy() method:
+public void destroy()
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+         15
+ 
+        This method will be executed only once by the web container to perform cleanup activities just before taking servlet object from out of service.
+Once destroy() method completes automatically webcontainer destroys that servlet object.
+This is usually happens at the time of server shutdown or at the time of application undeployment.
+Note: init(),service() and destroy() methods are called life cycle methods of servlet.
+4.getServletConfig():
+public ServletConfig getServletConfig()
+This method returns ServletConfig object. By using this object servlet can get its configuration information.
+5. getServletInfo()
+public String getServletInfo()
+This method returns information about our servlet like author,version,copyright information
+etc..
+init()
+service() destroy() getServletInfo() getServletConfig()
+Note:
+init(),service() and destroy() methods are called callback methods because these methods will be executed automatically by the web container.
+getServletConfig() and getServletInfo() methods should be called explicitly by the programmer based on our requirement and hence these methods are called in line methods.
+Steps to develop First web application:
+Step-1: Developing servlet by implementing Servlet interface:
+Every Servlet in java should implements Servlet interface either directly or indirectly.
+Whenever we are implementing Servlet interface compulsary we should provide implementation for all 5 methods of Servlet interface.
+FirstServlet.java:
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+      1) import javax.servlet.*;
+ 2) import java.io.*;
+ 3) import java.util.*;
+  16
+ 
+         4) public class FirstServlet implements Servlet
+ 5) {
+ 6) static
+ 7) {
+ 8) System.out.println("servlet class loading...");
+ 9) }
+ 10) public FirstServlet()
+ 11) {
+ 12) System.out.println("servlet instantiation...");
+ 13) }
+ 14) public void init(ServletConfig config) throws ServletException
+ 15) {
+ 16) System.out.println("init() method execution...");
+ 17) }
+ 18) public void service(ServletRequest req,ServletResponse resp) throws ServletException,I OException
+ 19) {
+ 20) resp.setContentType("text/html");
+ 21) System.out.println("service() method execution...");
+ 22) PrintWriter out=resp.getWriter();
+ 23) out.println("<h1>Welcome Innocent Advanced Java Students</h1>");
+ 24) out.println("<h1>The Server Time is:"+new Date()+"</h1>");
+ 25) }
+ 26) public void destroy()
+ 27) {
+ 28) System.out.println("destroy() method execution...");
+ 29) }
+ 30) public ServletConfig getServletConfig()
+ 31) {
+ 32) return null;
+ 33) }
+ 34) public String getServletInfo()
+ 35) {
+ 36) return "Developed by Durga";
+ 37) }
+ 38) }
+The basic purpose of servlet is to provide response to the end user. We can set content type of response as follows resp.setContentType("text/html");
+MIME Type represents the type of response we are sending to the end user. The default MIME Type is : text/html
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+  17
+ 
+        Other popular MIME Types are: application/pdf
+image/jpeg
+video/mp4
+etc..
+We can write text data(character data) to the response by using PrintWriter.
+We can get PrintWriter which is pointing to response as follows...
+PrintWriter out=resp.getWriter();
+By using this PrintWriter if we are writing any text data ,it will be written to response object,which will be delivered to the end user.
+By using SOP() statements if we are writing anything,it will be displayed to the server console and won't send to the end user.
+Note:
+Servlet Programs won't be run by programmer and web server is responsible to run. Hence main method concept is not applicable to servlet classes and we cannot run servlet from command prompt.
+Step 2: Compilation of Servlet class:
+After developing servlet class, we have to compile just like our normal java class.
+In the servlet program what ever dependent classes we used, are available in servlet-api.jar.
+web server vendor is responsible to provide this jar file.
+In Tomcat installation this jar file is available in the following location
+D:\Tomcat 7.0\lib
+Hence to compile a servlet, we have to place this jar file in the classpath.
+classpath
+D:\Tomcat 7.0\lib\servlet-api.jar
+Step-3: Creation of Deployment Descriptor(web.xml):
+For every web application we have to provide one xml file named with web.xml. This web.xml file is also known as Deployment Descriptor.
+web container will use this xml file to get information about our servlets.Hence web.xml acts as guide to web container.
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+   1) <web-app>
+ 2) <servlet>
+  18
+ 
+         3) <servlet-name>DemoServlet</servlet-name>
+ 4) <servlet-class>FirstServlet</servlet-class>
+ 5) </servlet>
+ 6)
+ 7) <servlet-mapping>
+ 8) <servlet-name>DemoServlet</servlet-name>
+ 9) <url-pattern>/test</url-pattern>
+ 10) </servlet-mapping>
+ 11) </web-app>
+Step-4: creation of web application folder structure:
+Servlet API defines some standard structure for web application Every web server can able to understand this application structure.
+Step-5: Deployment of web application in the web server:
+Once we developed web application according standard folder structure, we have to place this application inside web server. This process is called deployment.
+We have to place our application in the Tomcat Server of following location.(D:\Tomcat 7.0\webapps)
+Step-6: start server and send the request
+Once we deployed application in the web server,we can send the request as follows...
+     Protocol
+The Machine on which Server is running
+Name of the Application (Context Root)
+The Port Number on which Server is running
+url-pattern
+http://localhost:7777/advapps1A/test
+       19
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+advapps1A
+WEB-INF web.xml
+classes FirstServlet.class
+ 
+        For the First Request: servlet loading
+Servlet Instantiation Init Method called Service Method called
+For the Second Request onwards: Service Method called
+Note: At the time of first request servlet class will be loaded and servlet object will be created followed by init() method execution.Finally service() method will be called.
+But for second request onwards only service() method will be called.
+Because of this the processing time of first request is more when compared with other requests.
+Toovercomethisproblemweshouldgofor <load-on-startup>.Ifweconfigured <load-on-startup> then servlet class loading,servlet instantiation and execution of init() method will be performed at the time of server start up or at the time of application deployment.
+For the first request also only service() method will be called.
+We can configure <load-on-startup> in web.xml as follows...
+<web-app> <servlet>
+...
+<load-on-startup>10</load-on-startup> </servlet>
+.....
+</web-app>
+The main advantage of <load-on-startup> is all requests will be processed with uniform response time.
+Case 1: without <load-on-startup>:
+First Request:
+servlet loading
+servlet instantiation init() method execution service() method
+Second Request onwards: service() method
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+       20
+ 
+        Case 2: with <load-on-startup>:
+At the time of server start up or at application deployment:
+  servlet loading
+servlet instantiation init() method execution
+First Request: service() method called
+Second Request: service() method called
+Without <load-on-startup>
+With <load-on-startup>
+            First Request:
+Servlet Loading
+Servlet Instantiation
+init() Method Execution service() Method Execution
+Second Request Onwards: service() Method Execution
+        At The Time Of Server Start Up OR At Application Deployment Servlet Loading
+Servlet Instantiation
+init() Method Execution
+First Request:
+service() Method Execution
+Second Request:
+service() Method Execution
+      Note: From Servlet 2.5 Version onwards we can define multiple url-patterns for the same servlet in web.xml as follows...
+<web-app> .....
+<servlet-mapping> <servlet-name>DemoServlet</servlet-name> <url-pattern>/test</url-pattern> <url-pattern>/demo</url-pattern> <url-pattern>/hello</url-pattern>
+</servlet-mapping> </web-app>
+http://localhost:7777/advapps1A/test http://localhost:7777/advapps1A/demo http://localhost:7777/advapps1A/hello
+Note:
+At the time of application undeployment or at the time of server shutdown destroy() method will be executed.
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+  21
+ 
+        Life Cycle of Servlet that implements Servlet interface:
+1. Client(Browser) sends a request to the server.
+2. Server will check whether the request is for static or for dynamic information based on url
+3.If the request is for static information, then the server will search for the required static file.If the static file is available then web server provides that static file as response.If the required static file is not available then server will send 404 status code saying requested resource is not available.
+4.If the request is for dynamic information then web server forwards the request to the web container.
+5.Web container will identify the corresponding servlet class based on url pattern and with the help of web.xml
+6.web container will check whether servlet object is available or not
+If it is not already available,then web container will load servlet class,and create object for that
+servlet class and execute init() method.
+servlet class loading(by Class.forName() method) Servlet Instantiation( by uisng newInstance() method)
+7. web container will call service() method which is responsible to provide required response.
+8. Finally web container will call destroy() method to perform cleanup activities. This is usually happend at the time of application undeployment or at the time of server shutdown.
+   22
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+ 
+        Flow Chart for Servlet Life Cycle that implements Servlet interface: Request
+    If it is for Static, Web Server provided Response if it is available, otherwise provide 404 Error Response, saying requested Resource not available
+Web Server
+Web Server Checks
+whether the Request is for Static OR
+Dynamic?
+If it is for Dynamic
+    Browser
+Web Server Forwards Request to Web Container. Web Container Identify corresponding Servlet Class based on URL & with the help of web.xml
+   Client OR
+End User
+Web Container Checks
+whether the Servlet Object is available OR not?
+If it is available
+Execution of destroy() Method
+If it is not Available
+This is usually happen at Application Undeployment OR at Server Shut Down
+Usually these Steps will be performed at the time of First Request.
+If we configure <load-on-startup> then, these will be performed at either Server Start up OR at the time of Application Deployment
+   Servlet Class loading
+ Servlet Instantiation
+ Execution of init()
+   Response
+Execute service() Method
+and provide required Response
+  Developing Annotation based Servlet in Servlet 3.0V:
+In Servlets Annotations concept introduced in 3.0V. Annotation means MetaData(Data about Data) i.e Annotation provides extra information about our components.
+All servlet related annotations are avaialble in the following package. javax.servlet.annotation
+Whenever we are using annotations, compulsary we should import the above package. import javax.servlet.annotation.*;
+up to certain level we can replace web.xml configurations with annotations. Some times we can remove web.xml file also.
+Wecandefineurl-patternbyusingannotationasfollows @WebServlet("/test")
+We can define multiple url patterns as follows @WebServlet({"/test","/demo","/hello"})
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+   23
+ 
+        FirstServlet.java:
+  1) import javax.servlet.*;
+ 2) import java.io.*;
+ 3) import java.util.*;
+ 4) import javax.servlet.annotation.*;
+ 5) @WebServlet("/test")
+ 6) public class FirstSevlet implements Servlet
+ 7) {
+ 8) static
+ 9) {
+ 10) System.out.println("servlet class loading..");
+ 11) }
+ 12) public FirstSevlet()
+ 13) {
+ 14) System.out.println("Servlet class Instantiation...");
+ 15) }
+ 16) public void init(ServletConfig conf) throws ServletException
+ 17) {
+ 18) System.out.println("Init Method called");
+ 19) }
+ 20) public void service(ServletRequest req , ServletResponse resp) throws ServletException,I OException
+ 21) {
+ 22) System.out.println("Service Method called");
+ 23) resp.setContentType("text/html");
+ 24) PrintWriter out = resp.getWriter();
+ 25) out.println("<html><body bgcolor=green text=white><h1>Welcome Innocent Adv.Jav a Students<br/>");
+ 26) out.println("The Server Time is :"+new Date()+"</h1></body></html>");
+ 27) }
+ 28) public void destroy()
+ 29) {
+ 30) System.out.println("Destroy Method called");
+ 31) }
+ 32) public ServletConfig getServletConfig()
+ 33) {
+ 34) return null;
+ 35) }
+ 36) public String getServletInfo()
+ 37) {
+ 38) return "written by durga";
+ 39) }
+ 40) }
+http://localhost:7777/advapps1A3X/test
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+  24
+ 
+        Annotation Based Servlet:
+import javax.servlet.annotation.*; @WebServlet("/test")
+public class FirstSevlet implements Servlet {
+... }
+eg2:
+import javax.servlet.annotation.*; @WebServlet({"/test","/hello","/demo"}) public class FirstSevlet implements Servlet {
+... }
+  Servlet 2.x Based Folder Structure:
+advapps1A |-- WEB-INF
+|-- web.xml |-- classes
+|--FirstServlet.class
+  Servlet 3.x Based Folder Structure:
+advapps1A |-- WEB-INF
+|-- classes |--FirstServlet.class
+ GenericServlet:
+We can develop a Servlet by implementing Servlet interface directly. In this case compulsary we should provide implementation for all 5 methods of Servlet interface whether required or not required. Because of this length of the code will be increases and reduces readability.
+To overcome this problem we should go for GenericServlet.
+GenericServlet already implemented Servlet interface and provides implementation for all methods of Servlet interface except service() method. Instead of implementing Servlet interface if we extend GenericServlet then we required to provide implementation only for service() method, so that length of the code will be reduced and readability will be improved.
+ServletConfig (I) Servlet (I) Serializable (I)
+GenericServlet (AC)
+        25
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+ 
+        GenericServlet is an abstract class and implements Servlet,ServletConfig and Serializable interfaces...
+Developing Servlet by extending GenericServlet: FirstServlet.java:
+   1) import javax.servlet.*;
+ 2) import java.io.*;
+ 3) import javax.servlet.annotation.*;
+ 4) @WebServlet("/test")
+ 5) public class FirstSevlet extends GenericServlet
+ 6) {
+ 7) public void service(ServletRequest req, ServletResponse resp) throws ServletException,I OException
+ 8) {
+ 9) PrintWriter out = resp.getWriter();
+ 10) out.println("<h1>Writing servlet by extending GS is very easy</h1>"); 11) }
+ 12) }
+advapps1B |-- WEB-INF
+|-- classes |--FirstServlet.class
+Note:
+In the above program two classes are avaialble FirstServlet and GenericServlet. Web container creates object for FirstServlet class.
+If web container calls any method , first it will check whether our FirstServlet class contains that method or not. If our class contains that method then it will be executed. If our class does not contain that method then only parent class method(GenericServlet) will be executed.
+First priority for our class and then GenericServlet class because object is available for our class. Internal implementation of GenericServlet:
+  1) 2) 3) 4) 5)
+public abstract class GenericServlet implements Servlet, ServletConfig, Serializable {
+private transient ServletConfig config;
+public void init(ServletConfig config) throws ServletException
+ 6) {
+ 7) this.config = config;
+ 8) init();
+ 9) }
+ 10)
+11) public void init() throws ServletException
+  26
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+ 
+         12) {
+ 13) } 14)
+ 15) public ServletConfig getServletConfig()
+ 16) {
+ 17) return config;
+ 18) }
+ 19) :::::::::::::::::::::::::::::::: 20) }
+Case-1: If our servlet class does not contain any init() method:
+If our servlet class does not contain any init() method then web container always calls init(SC config) method of GenericServlet.
+Inside this method config object will be saved for the future purpose and calls no-arg init() method.
+web container will check whether our servlet class contains no-arg init() method or not.If our servlet class does not contain no-arg init() method, then GenericServlet no-arg init() method will be called, which has empty implementation.
+In this case getServletConfig() method returns config object. CASe 2: If we override init(SC) in our servlet class:
+public void init(ServletConfig config)throws SE {
+SOP("initialization activities"); }
+Web container will always calls our class init(SC) method. This is way of overriding init() method is not recommended b'z we are not saving config object for the future purpose. In this case getServletConfig() method returns null.
+Case-3: If we override no-arg init() method:
+public void init()throws SE {
+SOP("initialization activities"); }
+In this case web container will always calls GenericServlet class init(SC) method, which saves config object for the future purpose and internally calls no-arg init() method.Then our servlet class no-arg init() method will be called.
+In this case getServletConfig() method returns config object.
+Note:
+1.If our servlet class does not contain any init()method: GS: init(SC)===>GS:init()
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+     27
+ 
+ 2.If our servlet class contains init(SC) method FS:init(SC)
+3.If our servlet class contains no-arg init() method: GS:init(SC) ===>FS:init()
+Q.why GenericServlet class contains 2 init() methods? init(SC) is for web container purpose
+init() for programmer purpose
+Q.In our servlet which init() method is recommended to override? no-arg init() method
+Q.In GenericServlet class config variable declared as transient. what is the reason? due to security constraints config object should not be travelled across the network.
+Flow Chart For Servlet Life Cycle That extends GenericServlet
+If it is for Dynamic
+If it is not Available
+If it is Available
+javax.servlet.http:
+This package contains several classes and interfaces which can be used for developing Http based servlets.
+Important interface of javax.servlet.http package:
+1.HttpServletRequest:
+It is the child interface of ServletRequest
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+28
+If our Class doesn't contains
+If our Class contains
+If our Class contains
+If our Class doesn't contains
+
+        We can use request object to get end user provided information.
+2.HttpServletResponse:
+It is the child interface of ServletResponse
+We can use response object to prepare and send response to the end user.
+3.HttpSession:
+We can use HttpSession object to implement session management.
+Important classes of javax.servlet.http package:
+1.HttpServlet:
+It is the child class of GenericServlet.
+HttpServlet acts as base class to develop Http based servlets.
+2. Cookie:
+We can use Cookies in the session management.
+Common Terminology:
+web client and web server communicates with each other by using some common language known as HTTP.
+HTTP defines standard structures for request and response.
+Structure of Http request: Request Line
+Request Headers
+Request Body
+Request Line:
+GET /advapps1A/test HTTP/1.1
+Http Requested Protocol Version Request Resource Used By Browser Method
+Request Headers:
+Request headers will provide configuration information of the browser like media types accepted by browser,languages accepted by browser,encoding types supported by browser etc..
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+        Request Line
+ Request Headers
+ Request Body
+      29
+ 
+        Web server will use these request headers while preparing proper response.
+Request Body:
+It contains end user provided information like resume,username etc...
+Note:
+For the GET request, request body is optional and for POST request, request body is mandatory.
+Structure of Http Response: Status Line
+Response Headers
+Response Body
+  Status Line
+ Response Headers
+ Response Body
+ Status Line:
+  1XX==>Informational 2XX===>Successful 3XX===>Redirection 4XX===>Client Error 5XX===>Server Error
+HTTP/1.1 200 OK
+ProtocolVersionStatus Description
+Used By Server Code
+of Status Code
+Response Headers:
+These provide configuration information of server and information about our response like content type, content length,last modified date etc..
+Browser will use these response headers to display response properly to the end user.
+Response Body:
+It contains original response provided by server.This response body will be displayed to the end user.
+Note:
+Request headers send by browser and used by server where as Response headers send by server and used by browser.
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+    30
+ 
+        Types of HTTP Request Methods: Based on operations expected by
+client all http methods are divided as follows...
+  Big-7 HTTP Methods
+1. GET 2. POST 3. HEAD
+4. PUT
+5. DELETE 6. OPTIONS 7. TRACE
+8. CONNECT 9. MOVE 10. LOCK ::::::::::::::
+Introduced in HTTP/1.0 V
+Introduced in HTTP/1.1 V
+ GET,POST and HEAD introduced in HTTP/1.0V The first 7 methods are called Big-7 Http Methods
+Note:
+Until Servlet 2.4V,web server can provide support for the first-7 HTTP methods.But from Servlet 2.5 version onwards web server can provide support for the remaining methods also.
+Note:
+Being java developer we have to aware only GET and POST methods.
+GET Method:
+1. If we want to get information from the server then we should go for GET Request.
+2. Usually GET Requests are Read Only and at server side update operation won't be performed. 3.In GET Request end user's provided information will be appended to the url as the part of Query String.
+Eg: http://localhost:7777/advapps1C/test?uname=durga&pwd=java
+4. In the GET request end user's provided information is visible to the outside and hence there may be a chance of security problems.B'z of this, we cannot send sensitive information(like username,pwd etc) by using GET Request.
+5.We can send only limited amount of information by GET Request.
+6. We can send only character data(text data) and we cannot send binary data(like images,video files etc) by using GET Request.
+7. Book marking of GET Request is possible.
+8. Caching of GET Request is possible and hence performance will be improved.
+Idempotent Request:
+By repeating the request multiple times if there is no change in the response,such type of requests are called Idempotent Requests.
+Eg: GET is idempotent where as POST is not idempotent
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+    31
+ 
+        Safe Request:
+By repeating the request several times ,if there is no side effect at server side,such type of requests are called safe requests.
+Eg: GET is safe but POST is not safe
+Triggers to send GET Request:
+1. Typing url in the address bar and submit
+2. Clicking hyperlink
+3. submit the form without method attribute
+4. submit the form with method attribute value as GET.
+<form action="/test" method="GET"> ...........
+</form>
+POST Method:
+1. We can use POST method to send huge amount of information to the server Eg: uploading resume
+2. usually POST requests are write only. i.e at server side update operation will be performed. 3.For the POST requests end user provided information will be encapsulated in the request body instead of appending to the url.
+4.End users data is not visible in the url and hence we can send sensitive informtion by using POST request.
+5.There is no limit to the size of request body and hence we can send huge amount of information by using POST request.
+6.By using POST request we can send both character and binary data.
+7.Book marking of POST Request is not possible
+8.Caching is not applicable for POST requests 9. Post requests are not idempotent
+10. Post requests are not safe
+Triggers to send POST Requests:
+There is only one way to send POST Request. i.e submit the form with method attribute of POST value.
+<form action="/test1" method="POST"> ...
+</form>
+Note: For GET requests body is optional where as for POST Requests body is mandatory.
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+      32
+ 
+        Q. What are differences b/w GET and POST?
+GET
+1) We can use GET Method to GET Information from the Server.
+2) Usually GET requests are READ-ONLY.
+3) End User provided Information will be append to the URL as the Part of Query String and send to the Server.
+4) By using GET Request we can send only Character Data (ASCII) and we cannot send Binary Data like Images.
+5) By using GET Request we can send only limited Amount of Information, which is varied from Browser to Browser.
+6) Security is less and hence we cannot send sensitive Information like User Name, Password etc.
+7) Book Marking of GET Request is possible.
+8) Caching of GET Request is possible. 9) GET Request is Idempotent.
+10) GET Request is safe.
+POST
+1) We can use POST Method to POST Information to the Server.
+2) Usually POST Requests are WRITE or UPDATE Operations.
+3) End User provided Information will be encapsulated in the Request Body and send to the Server.
+4) By using POST Request we can send both Binary and Character Data to the Server.
+5) By using POST Request we can send huge Amount of Information to the Server.
+6) Security is more and hence we can send sensitive Information like User Name, Password etc.
+7) Book Marking of POST Request is not possible.
+8) Caching of POST Request is not possible. 9) POST Request is not Idempotent.
+10) POST Request is not safe.
+                                                   11) There are multiple ways to send GET Request:
+ Typing URL in the Address Bar and enter
+ Clicking Hyper Link
+ Submitting the HTML FORM with
+Method Attribute of GET Value.
+      11) There is only one way to send POST Request:
+ Submitting the HTML FORM with Method Attribute of POST Value.
+  HttpServlet:
+HttpServlet acts as base class to develop Http Based servlets. It is the child class of GenericServlet.
+ServletConfig (I) Servlet (I) Serializable (I)
+GenericServlet (AC)
+HttpServlet (AC)
+         33
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+ 
+        For every Http Method XXX,HttpServlet class contains the corresponding doXxx() method.
+protected void doXxx(HttpServletRequest req,HttpServletResponse resp)throws ServletException,IOException
+Eg:
+protected void doGet(HttpServletRequest req,HttpServletResponse resp)throws ServletException,IOException
+HttpServlet contains 2 Service methods
+1. public void service(ServletRequest req,ServletResponse resp)throws SE,IOE
+2. protected void service(HttpServletRequest req,HttpServletResponse resp)throws SE,IOE Demo Program for developing servlet by extending HttpServlet:
+login.html:(we can use to send POST request)
+   1) <html>
+ 2) <body><h1> This is HttpServletDemo to send Post request</h1>
+ 3) <form action = "/advapps1C/test" method="POST">
+ 4) Enter Name :<input type="text" name="uname"><br/>
+ 5) <input type="submit" value="Login">
+ 6) </form>
+ 7) </body>
+ 8) </html>
+FirstServlet.java:
+  1) import javax.servlet.*;
+ 2) import javax.servlet.http.*;
+ 3) import java.io.*;
+ 4) import javax.servlet.annotation.*;
+ 5) @WebServlet("/test")
+ 6) public class FirstSevlet extends HttpServlet
+ 7) {
+ 8) public void doGet(HttpServletRequest req,HttpServletResponse resp) throws ServletExc eption,IOException
+ 9) {
+ 10) PrintWriter out = resp.getWriter();
+ 11) out.println("<h1>This is from doGET()method...</h1>");
+ 12) }
+ 13) public void doPost(HttpServletRequest req,HttpServletResponse resp) throws ServletExc eption,IOException
+ 14) {
+ 15) PrintWriter out = resp.getWriter();
+ 16) out.println("<h1>This is from doPOST()method...</h1>");
+  34
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+ 
+         17) }
+ 18) }
+advapps1C
+|-- login.html |-- WEB-INF
+|-- classes |--FirstServlet.class
+If we are sending GET request then doGet() method will be executed and if we are sending POST request then doPost() method will be executed.
+Life cycle of HttpServlet:
+1. Whenever we submit form ,browser prepares HttpRequest and send to the server.
+2.Web server checks whether request is for static or for dynamic information.
+3.If the request is for static information then web server provides the required response if it is available,otherwise it will send 404 status code saying requested resource is not available.
+4.If the request is for dynamic information then web server forwards the request to web container.
+5.web container will identify corresponding servlet class based on url pattern and with the help of web.xml
+6.web container will check whether servlet object is available or not.
+7.If the servlet object is not available then web container loads servlet class,instantiate servlet and execute init() method.
+[ execution of init() method is exactly same as GenericServlet life cycle]
+8.web container creates ServletRequest and ServletResponse objects and invokes public service() method by passing these as arguments.
+9.web container will check whether our servlet class contains public service(SR,SR) method or not. If our servlet class contains public service(SR,SR) method then it will be executed and provides required response.
+10.If our servlet class does not contain public service() method then parent class(HttpServlet) public service(SR,SR) method will be executed, which is implemented as follows...
+public void service(SR req, SR resp) throws SE, IOE {
+HttpServletRequest request=(HSR)req; HttpServletResponse response=(HSR)resp; service(request, response);
+ }
+35
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+   
+        Inside HttpServlet public service() method, req and resp objects will be type casted to HttpServletRequest and HttpServletResponse and then invoke protected service(HSR,HSR) method.
+web container will check whether our servlet class contains protected service(HSR,HSR) method or not.
+If our servlet class contains protected service(HSR,HSR) method then it will be executed and provide required response to the end user.
+If our servlet class does not contain protected service() method then web container will execute HttpServlet protected service() method.
+HttpServlet protected service() method will identify request method(like get,post etc) and invoke corresponding doXxx() method.
+protected void service(HSR req,HSR resp)throws SE,IOE {
+String method = req.getMethod(); if(method.equals("GET"))
+{
+doGet(req,resp); } else
+if(method.equals("POST")) {
+doPost(req, resp); }
+... else
+{
+return 501 status code saying http method not implemented.
+} }
+webcontainer will check whether our servlet class contains the corresponding doXxx() method or not.If our servlet class contains doXxx() method then it will be executed and provide required response.
+If our servlet class does not contain doXxx() method then parent class HttpServlet doXxx() method will be executed,which is implemented as follows...
+protected void doGet(HSR req,HSR resp)throws SE,IOE {
+return 405|400 status code saying Http Method GET is not supported by this url. }
+HttpServlet doXxx() method wont do anything and just it will share error information to the end user.
+Note:
+Web Container will always calls the methods in the following order public service(SR,SR)
+protected service(HSR,HSR)
+public doXxx(HSR,HSR)
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+  36
+ 
+        Flow Chart For Servlet Life Cycle That extends HttpServlet Request
+   If it is for Static, Web Server provided Response if it is available, otherwise provide 404 Error Response, saying requested Resource not available
+Web Server Checks
+whether the Request is for Static OR
+Dynamic?
+If it is for Dynamic
+     Web Server Forwards Request to Web Container. Web Container Identify corresponding Servlet Class based on URL & with the help of web.xml
+Servlet Class loading
+ Servlet Instantiation
+  Web Container Checks
+whether the Servlet Object is available
+OR not? If it is Available
+Ifitisnot Available
+Usually these Steps will be performed at the time of First Request.
+If we configure <load-on-startup> then, these will be performed at either Server Start up OR at the time of Application Deployment
+Execution of init()
+  Web Container calls
+public service (SR, SR) Method
+ Browser
+     Execute our Class public service (SR, SR) Method and provide Response
+If our Class contains
+If our Class contains
+If our Class contains
+Web Container will Check
+whether our Class contain public service (SR, SR) Method
+OR not?
+If our Class does not contains
+Web Container will Checks
+whether our Class contain protected service (HSR, HSR)
+Method OR not?
+If our Class does not contains
+Web Container will Check
+whether our Servlet Class contains the corresponding doXxx() Method OR not?
+If our Class does not contains
+  Web Container will call HttpServlet public service (SR, SR). It will Typecast SR and SR Objects into HSR and HSR and invoke
+protected service (HSR, HSR) Method
+  Execute our Class protected service (HSR, HSR)
+Method and provide Response
+  Web Container will execute HttpServlet protected service (HSR, HSR). Internally it will Identify Request Method and invoke the corresponding doXxx() Method
+  Execute our Class doXxx ()
+Method and provide Response
+   Web Container will execute HttpServlet
+doXxx() Method which provide 400/405 Status Response saying Http Method Xxx not supported by this URL.
+  37
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+Web Server
+Finally Web Container will call destroy()
+Method to perform Clean up Activity
+   
+        Case-1:
+If our servlet class contains public service(SR,SR) method then for any type of request(like get,post etc)
+only this public service(SR,SR) method will be executed.
+case-2:
+If our servlet class contains both public service(SR,SR) and protected service(HSR,HSR) then public service(SR,SR) method will be executed for any type of request(like get,post etc)
+case-3:
+If our servlet class contains protected service() and doGet() methods,then for any type of request including GET, protected service() method will be executed.
+***case-4:
+If we are sending GET request but our servlet does not contain doGet() method and it contains doPost() method,then HttpServlet doGet() method will be executed which returns error information
+HTTP Status 405 - HTTP method GET is not supported by this URL
+case-5:
+If we are sending POST request,but our servlet class does not contain doPost() method and it contains doGet() method then HttpServlet doPost() method will be executed which returns error information
+HTTP Status 405 - HTTP method POST is not supported by this URL
+case-6:
+To provide common response for both GET and POST requests,we have to implement our servlet as follows..
+       1) public class FirstSevlet extends HttpServlet
+ 2) {
+ 3) public void doGet(HttpServletRequest req,HttpServletResponse resp) throws ServletExc eption,IOException
+ 4) {
+ 5) PrintWriter out = resp.getWriter();
+ 6) out.println("<h1>This is common response for both GET and Post methods...</h1>");
+ 7) }
+ 8) public void doPost(HttpServletRequest req,HttpServletResponse resp) throws ServletExc eption,IOException
+ 9) {
+ 10) doGet(req,resp); 11) }
+ 12) }
+  38
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+ 
+        FAQS:
+1. Why GenericServlet class is declared as abstract?
+2. HttpServlet class does not contain any asbtract method, still it is declared as abstract.What is the reason?
+3. Internally how web container will create servlet object?
+4.Why every servlet should contains public no-arg constructor?
+5.The main purpose of constructor is to perform initilization and every servlet compulsary contains public no-arg constructor.Then what is need of init() method?
+6.Is it possible to call destroy() method explicitly from init() and service() methods?
+7. In How many ways we can develop servlet?
+8. In Http based servlets , is it recommended to override service() method?
+Q1. Why GenericServlet class is declared as abstract?
+GenericServlet implements Servlet interface and provides implementation for all methods except service() method.Hence GenericServlet class is declared as abstract.
+Q2. HttpServlet class does not contain any asbtract method, still it is declared as abstract.What is the reason?
+Most of the methods present inside HttpServlet class are implemented to send error information to the end user.B'z of this partial implementation HttpServlet class is declared as abstract.
+Note:
+1. If a class contains at least one abstract method then compulsary we should declare that class as abstract otherwise we will get compile time error.
+eg: GenericServlet
+2. Eventhough class does not contain any abstract method still class declared as abstract if implementation is partial.i.e abstract class can contain zero number of abstract methods also. eg: HttpServlet
+Q3. Internally how web container will create servlet object?
+If we know class name at the beginning then we can create object by using new operator.
+If we don't know class name at the beginning and it is available dynamically at runtime then we can create object by using newInstance() method.
+Web container don't know our servlet class names at the beginning and hence it is always using newInstance() method to create Servlet object.
+Q4.Why every servlet should contains public no-arg constructor?
+web container will create servlet object by using newInstance() method.Internally newInstance() method will call public no-arg constructor. Hence every servlet class should compulsary contain public no-arg constructor,otherwise we will get java.lang.InstantiationException.
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+       39
+ 
+        5. The main purpose of constructor is to perform initilization and every servlet compulsary contains public no-arg constructor.Then what is need of init() method?
+To perform initialization of servlet compulsary we should pass ServletConfig argument.But in servlets constructor cannot take any arguments b'z newInstance() method.
+Hence we cannot use constructor concept to perform initialization of the servlet.
+Some mechanism must be required to perform initialization which is nothing but init() method.
+init()==>can take ServletConfig as argument Constructor==>cannot take any argument
+Q6. Is it possible to call destroy() method explicitly from init() and service() methods?
+Just before destroying servlet object web container will always calls destroy() method to perform clean up activities.
+But based on our requirement we can call destroy() method explicitly from init() and service() methods,then it will be executed just like a normal method and servlet object wont be destroyed.
+init() {
+destroy(); }
+service() {
+destroy(); }
+Q7. In how many ways we can develop a servlet?
+3 ways
+By implementing Servlet interface directly By extending GenericServlet
+By extending HttpServlet
+Q8. In Http based servlets , is it recommended to override service() method?
+No. If we override service() method then for any type of request same service() method will be executed.
+       40
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+ 
+        Playing Games with Request object
+Objective:
+By using HttpServletRequest, write code for 1. Retrieving form parameters
+2. Retrieving Request headers
+3. Retrieving Cookies
+4. Retrieving Client and Server information
+Retrieving Form Parameters:
+Form Parameters are key-value pairs where both key and value are String objects.
+Form parameter can be associated with single value or multiple values.
+ServletRequest interface defines the following methods to retrieve form parameters from the request object.
+1.public String getParameter(String pname)
+returns the value associated with specified parameter
+If parameter associated with multiple values then it returns only first value. If the specified parameter is not available then this method returns null. Argument is case sensitive.
+Eg: String user=req.getParameter("uname");
+2. public String[] getParameterValues(String pname)
+It returns all values associated with the specified parameter.
+If the specified parameter is not available then this method returns null. Argument is case sensitive
+Eg: String[] s = req.getParameterValues("course"); for(String s1: s)
+{
+SOP(s1); }
+3. public Enumeration getParmeterNames() returns all form parameter names.
+4. public Map getParameterMap()
+returns Map object which contains all parameter names and values.
+        getParameter() getParameterValues() getParameterNames() getParameterMap()
+  41
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+ 
+        Demo Program to retrieve Form Parameters: register.html:
+   1) <html>
+ 2) <body bgcolor=green text=white><center><h1>Durga Software Solutions:Registration for m</h1></center>
+ 3) <form action = "/advapps1D/test" method="GET">
+ 4) <table border=0>
+ 5) <tr><td>Enter Name :</td><td><input type=text name=uname></td></tr>
+ 6) <tr><td>Enter contact number:</td><td>
+ 7) <input type=text name=ucontact></td></tr>
+ 8) <tr><td>Enter Course:</td><td>
+ 9) <select name=course multiple>
+ 10) <option value=CoreJava>Core Java</option>
+ 11) <option value=AdvJava>Advanced Java</option>
+ 12) <option value=Hibernate>HIBERNATE</option>
+ 13) <option value=Spring>SPRING</option>
+ 14) <option value=WebServices>Web Services</option>
+ 15) </select></td></td>
+ 16) <tr><td><input type=submit></td><td></td></tr></table>
+ 17) </form>
+ 18) </body>
+ 19) </html>
+FormDemoServlet.java:
+  1) import javax.servlet.*;
+ 2) import javax.servlet.http.*;
+ 3) import java.io.*;
+ 4) import javax.servlet.annotation.*;
+ 5) @WebServlet("/test")
+ 6) public class FormDemoServlet extends HttpServlet
+ 7) {
+ 8) public void doGet(HttpServletRequest req,HttpServletResponse resp) throws ServletExc eption,IOException
+ 9) {
+ 10) PrintWriter out = resp.getWriter();
+ 11) String username=req.getParameter("uname");
+ 12) String usercontact=req.getParameter("ucontact");
+ 13) out.println("<h1>User Name:"+username+"<br>");
+ 14) out.println("User Contact:"+usercontact+"<br>");
+ 15) String[] s = req.getParameterValues("course");
+ 16) out.println("Your Selected Courses:<br/>");
+ 17) for(String s1 : s)
+ 18) {
+ 19) out.println(s1+"<br>");
+ 20) }
+ 21) out.println("</h1>");
+  42
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+ 
+         22) }
+ 23)
+ 24) }
+advapps1D |-register.html |-WEB-INF
+|-classes |-FormDemoServlet.class
+Retrieving Request Headers:
+For every request browser sends its configuration information in the form of headers. These may include the media types accepted by brower,encoding types supported by browser, accepted languages of browser,the type of browser etc..
+Server can use these request headers to send proper response to the browser. The following are some important request headers.
+1. accept:media types accepted by browser (like html,pdf,images etc..) 2.accept-encoding: encoding types accepted by browser like gzip,dflate etc.. 3.accept-language: languages types accepted by browser like un-en 4.user-agent: It represents the type of browser
+5.cookie: used to send cookies for session management etc...
+utilities of request headers:
+case-1:
+By using accept-encoding request header,server can send compressed data instead of original data.It reduces download time and improves performance.
+Eg:
+String encoding=req.getHeader("accept-encoding"); if(encoding.equals("gzip"))
+{
+send movie in gzip format }
+case-2:
+By using user-agent request header,server can send browser specific customized response,so that we can increase hit rate of our application.
+String userAgent=req.getHeader("user-agent"); if(userAgent.equals("mozilla"))
+{
+provide mozilla compatible response }
+else if(userAgent.equals("chrome")) {
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+      43
+ 
+        provide chrome compatible response }
+case-3:
+By using cookie request header,browser can send cookies to the server so that server can implement session management.
+Note:
+Browser will send request headers and server can use these request headers to provide proper response.
+HttpServletRequest defines the following methods to retrieve header information at server side
+1. public String getHeader(String hname)
+returns value associated with specified request header
+If the specified request header is not already available then we will get null
+If the header associated with multiple values then this method returns only first value. argument is case insensitive
+Eg:
+String userAgent=req.getHeader("USER-AGENT");
+String userAgent=req.getHeader("user-agent");
+2. public Enumeration getHeaders(String hname): returns all values associated with specified header.
+If the specified header is not available then this method returns empty Enumeration object but not null.
+argument is not case sensitive
+3. public Enumeration getHeaderNames()
+returns all header names associated with the request.
+4. public int getIntHeader(String hname)
+We can use this method if header associated with int value. String length=req.getHeader("content-length");
+int l = Integer.parseInt(length);
+or
+int l = req.getIntHeader("content-length");
+5. public long getDateHeader(String hname)
+We can use this method if header associated with Date value.
+Returns Date value associated with the header as the number of milli seconds since jan 1st 1970. If we pass these milliseconds as argument to Date constructor then we will get exact date.
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+       1970 JAN 1st 12:00 AM Milli Seconds
+Date Value
+  44
+ 
+        Eg:
+long l =req.getDateHeader("date"); Date d = new Date(l);
+Demo Program to display all request headers information RequestHeaderDemoServlet.java:
+ getHeader() getHeaders() getHeaderNames() getIntHeader() getDateHeader()
+   1) import javax.servlet.*;
+ 2) import javax.servlet.http.*;
+ 3) import java.io.*;
+ 4) import java.util.*;
+ 5) import javax.servlet.annotation.*;
+ 6) @WebServlet("/test")
+ 7) public class RequestHeaderDemoServlet extends HttpServlet
+ 8) {
+ 9) public void doGet(HttpServletRequest req,HttpServletResponse resp) throws ServletExc eption,IOException
+ 10) {
+ 11) PrintWriter out = resp.getWriter();
+ 12) out.println("<h1>Request Headers Information</h1></hr>");
+ 13)
+out.println("<table border=2><tr><th>HeaderName</th><th>Header values</th></tr
+>");
+ 14) Enumeration e = req.getHeaderNames();
+ 15) while(e.hasMoreElements())
+ 16) {
+ 17) String hname = (String)e.nextElement();
+ 18) String hvalue=req.getHeader(hname);
+ 19) 20) 21)
+out.println("<tr><td>"+hname+"</td><td>"+hvalue+"</td></tr>"); }
+out.println("</table></body></html>");
+ 22) }
+ 23) }
+advapps1E |-WEB-INF |-classes
+|-RequestHeaderDemoServlet.class
+Retrieving Cookies from the request:
+HttpServletRequest interface defines the following mehtods to retrieve cookies from the request.
+Cookie[] c = req.getCookies();
+    45
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+ 
+        Retrieving Client and Server information from the request:
+We can get client and server information from the request by using the following methods of ServletRequest.
+1.public String getRemoteHost()
+Returns fully qualified name of the client which sends the request.
+2. public String getRemoteAddr() returns IP address of the client
+3. public int getRemotePort()
+returns the port number on which client is running
+4. public String getServerName()
+returns the server name to which request sent
+5. public int getServerPort()
+returns port number at which server is running
+Demo Program to print client and server information from the request: ClientServerInfoServlet.java:
+         1) import javax.servlet.*;
+ 2) import javax.servlet.http.*;
+ 3) import java.io.*;
+ 4) import javax.servlet.annotation.*;
+ 5) @WebServlet("/test")
+ 6) public class ClientServerInfoServlet extends HttpServlet
+ 7) {
+ 8) public void doGet(HttpServletRequest req,HttpServletResponse resp) throws ServletExc eption,IOException
+ 9) {
+ 10) PrintWriter out = resp.getWriter();
+ 11) out.println("<h1>Client IP Address:" +req.getRemoteAddr()+"</h1>");
+ 12) out.println("<h1>Client Host:" +req.getRemoteHost()+"</h1>");
+ 13) out.println("<h1>Client Port" +req.getRemotePort()+"</h1>");
+ 14) out.println("<h1>Server Name:" +req.getServerName()+"</h1>");
+ 15) out.println("<h1>Server Port:" +req.getServerPort()+"</h1>");
+ 16) }
+ 17) }
+advapps1E |-WEB-INF |-classes
+|-ClientServerInfoServlet.class
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+  46
+ 
+        To Retrieve Form Parameters
+1) getParameter() 2) getParameterValues()
+  3) getParameterNames()
+4) getParameterMap()
+  Request Object
+To Retrieve Request Headers
+1) getHeader() 2) getHeaders() 3) getHeaderNames() 4) getIntHeader()
+5) getDateHeader()
+To Retrieve Cookies
+Cookie() c = req.getCookies();
+To Retrieve Client And Server Information
+1) getRemoteHost() 2) getRemoteAddr() 3) getRemotePort() 4) getServerName()
+5) getServerPost()
+  Playing Games with Response Object
+Objective:
+By using HttpServletResponse interface,write code 1. To set Response headers
+2. To set Content type of Response
+3. To acquire Text Stream for response
+4. To acquire Binary Stream for response 5. To redirect request to another url
+6. To add cookies to the response
+1. To set Response headers:
+Http Response headers provides configuration information of the server and information about the response like content-type,content-length etc
+Browser will use these response headers to display response body properly to the end user. HttpServletResponse interface defines the following methods to add headers to the response.
+1. public void setHeader(String hname,String hvalue)
+If the specified header is already available then old value will be replaced with new value.
+2. public void addHeader(String hname,String hvalue)
+If the specified header is already available then this new value also will be added to existing list
+of values. In this case replacement won't be happend.
+HttpServletResponse interface defines the following extra methods to add int and date headers.
+3. public void setIntHeader(String hname,int hvalue)
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+     47
+ 
+        4. public void addIntHeader(String hname,int hvalue) 5. public void setDateHeader(String hname,long ms) 6. public void addDateHeader(String hname,long ms)
+2.set content type of response:
+ContentType header represents MIME type(multi purpose internet mail extension)of the response.
+Common MIME Types are:
+text/html==>Html text as response application/pdf==>pdf file as response application/msword==>msword file as response application/vnd.ms-excel==>excel file as response image/jpeg==>jpeg image file as response video/mp4===>mp4 video file as response
+etc...
+We can set content Type of response in the following 2 ways
+1. By ServletResponse:
+ServletResponse interface defines the following method for this.
+public void setContentType(String mimetype);
+Eg: resp.setContentType("text/html");
+2. By HttpServletResponse:
+HttpServletResponse interface defines the following method for this. public void setHeader(String hname,String hvalue);
+Eg:
+resp.setHeader("content-type","text/html");
+Demo Program to send HTML Response:
+     1) import javax.servlet.*;
+ 2) import javax.servlet.http.*;
+ 3) import java.io.*;
+ 4) import javax.servlet.annotation.*;
+ 5) @WebServlet("/test")
+ 6) public class HtmlServlet extends HttpServlet
+ 7) {
+ 8) public void doGet(HttpServletRequest req,HttpServletResponse resp) throws ServletExc eption,IOException
+ 9) {
+ 10) PrintWriter out = resp.getWriter();
+ 11) resp.setContentType("text/html");
+  48
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+ 
+         12) out.println("<h1><table border=1>");
+ 13) out.println("<tr><th>NAME</th><th>RANK</th></tr>");
+ 14) out.println("<tr><td>SUNNY</td><td>1</td></tr>");
+ 15) out.println("<tr><td>MALLIKA</td><td>2</td></tr>");
+ 16) out.println("<tr><td>VEENA</td><td>3</td></tr>");
+ 17) out.println("<tr><td>MALLIKA ARORA</td><td>4</td></tr></h1>");
+ 18) }
+ 19) }
+Demo Program to send Excel File as Response:
+  1) import javax.servlet.*;
+ 2) import javax.servlet.http.*;
+ 3) import java.io.*;
+ 4) import javax.servlet.annotation.*;
+ 5) @WebServlet("/test")
+ 6) public class ExcelServlet extends HttpServlet
+ 7) {
+ 8) public void doGet(HttpServletRequest req,HttpServletResponse resp) throws ServletExc eption,IOException
+ 9) {
+ 10) PrintWriter out = resp.getWriter();
+ 11) resp.setContentType("application/vnd.ms-excel");
+ 12) out.println("<h1><table border=1>");
+ 13) out.println("<tr><th>NAME</th><th>RANK</th></tr>");
+ 14) out.println("<tr><td>SUNNY</td><td>1</td></tr>");
+ 15) out.println("<tr><td>MALLIKA</td><td>2</td></tr>");
+ 16) out.println("<tr><td>VEENA</td><td>3</td></tr>");
+ 17) out.println("<tr><td>MALLIKA ARORA</td><td>4</td></tr></h1>");
+ 18) }
+ 19) }
+Demo Program to send Word File as Response:
+  1) import javax.servlet.*;
+ 2) import javax.servlet.http.*;
+ 3) import java.io.*;
+ 4) import javax.servlet.annotation.*;
+ 5) @WebServlet("/test")
+ 6) public class WordServlet extends HttpServlet
+ 7) {
+ 8) public void doGet(HttpServletRequest req,HttpServletResponse resp) throws ServletExc eption,IOException
+ 9) {
+ 10) PrintWriter out = resp.getWriter();
+ 11) resp.setContentType("application/msword");
+ 12) out.println("<h1><table border=1>");
+ 13) out.println("<tr><th>NAME</th><th>RANK</th></tr>");
+ 14) out.println("<tr><td>SUNNY</td><td>1</td></tr>");
+  49
+DURGASOFT, # 202, 2nd Floor, HUDA Maitrivanam, Ameerpet, Hyderabad - 500038,  040 – 64 51 27 86, 80 96 96 96 96, 92 46 21 21 43 | www.durgasoft.com
+ 
+         15) out.println("<tr><td>MALLIKA</td><td>2</td></tr>");
+ 16) out.println("<tr><td>VEENA</td><td>3</td></tr>");
+ 17) out.println("<tr><td>MALLIKA ARORA</td><td>4</td></tr></h1>");
+ 18) }
+ 19) }
+3. To acquire text stream for the response:
+We can send text data as the response by using PrintWriter object.
+We can get PrintWriter object by using getWriter() method of ServletResponse interface.
+Eg:
+PrintWriter out=resp.getWriter();
+out.println("Hello this is text response from the servlet");
+4. To acquire binary stream for the response:
+We can send binary information(like video files,audio files,images etc..)as response by using ServletOutputStream object.
+We can create ServletOutputStream object by using getOutputStream() method of ServletResponse interface.
+Eg: ServletOutputStream os=resp.getOutputStream(); BinaryStreamDemo1Servlet.java:
+    1) import javax.servlet.*;
+ 2) import javax.servlet.http.*;
+ 3) import java.io.*;
+ 4) public class BinaryStreamDemo1Servlet extends HttpServlet
+ 5) {
+ 6) public void doGet(HttpServletRequest req,HttpServletResponse resp) throws ServletExc eption,IOException
+ 7) {
+ 8) resp.setContentType("image/JPEG");
+ 9) ServletOutputStream os = resp.getOutputStream();
+ 10) String path=getServletContext().getRealPath("sunny.jpg");
+ 11) File f = new File(path);
+ 12) FileInputStream fis = new FileInputStream(f);
+ 13) byte[] b = new byte[(int)f.length()];
+ 14) fis.read(b);//reading the image and placing into byte array
+ 15) os.write(b);//write byte array to the respose
+ 16) os.flush();
+ 17) os.close();
+ 18) }
+ 19) }

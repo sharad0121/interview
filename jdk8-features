@@ -1008,13 +1008,137 @@ processing by sorted
 --------------------
 import java.util.*;
 import java.util.function.*;
+import java.util.stream.*;
 public class StreamSortedDemo{
   public static void main(String[] args){
    List<Integer>  numbers= Arrays.asList(1,4,5,3,2,5,5,8);
-    List<Integer>  sortedNums = numbers.stream().sorted();
-   System.out.println("the sorted numbers are: ");
-   sortedNums.forEach(System.out::println);
+    List<Integer>  sortedNums = numbers.stream().sorted().collect(Collectors.toList());
+   System.out.println("the sorted numbers are: "+Arrays.asList(sortedNums));
+  // sortedNums.forEach(System.out::println);
   }
+}
+
+sorted() method follows default natural sorting order, however we can have our own custom sorting by passing our own Comparator 
+implementation.
+
+let's say we have list of Products and we want to sort them in the descending order of their price.
+
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
+public class StreamSortedCustomComparatorDemo{
+  public static void main(String[] args){
+   List<Product>  products = new ArrayList<Product>();
+   Product product = new Product(100d, "bottle");
+   products.add(product);
+   product = new Product(50d, "pen");
+   products.add(product);
+
+   List<Product>  sortedProducts = products.stream()
+                                   .sorted((p1,p2) -> -p1.getPrice().compareTo(p2.getPrice())) 
+                                   .collect(Collectors.toList());
+   System.out.println("the sorted products are: "+Arrays.asList(sortedProducts));
+  }
+}
+
+class Product{
+  private Double price;
+  private String productName;
+  public Product(Double price, String productName){
+   this.price = price;
+   this.productName = productName;
+  }
+  public Double getPrice(){
+  return this.price;
+  }
+  public String getProductName(){
+  return this.productName;
+  }
+  public String toString(){
+    return "price: "+this.price+" productName: "+this.productName;
+  }
+}
+
+Processing by using min() and max() methods:
+min(Comparator c) -> returns minimum value according to specified Comparator.
+max(Comparator c) -> returns maximum value according to specified Comparator.
+
+example: 
+
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
+public class StreamMinMaxTest{
+  public static void main(String[] args){
+  List<Integer> integers = Arrays.asList(1,3,3,4,9,4,5,5,6);
+  System.out.println("the minimum in the list is: "+integers.stream().min((num1,num2) -> num1.compareTo(num2)).get());
+  System.out.println("the maximum in the list is: "+integers.stream().max((num1,num2) -> num1.compareTo(num2)).get());
+  }
+}
+
+forEach() method
+--------------
+this method does not return anything. It takes Lambda Expression as an argument and apply that expression on each element from the stream
+
+stream().forEach(s->System.out.println(s));
+stream().forEach(System.out::println);
+
+toArray() method
+----------------
+We can use toArray() method to copy elements present in the stream to copy into specified array.
+
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
+public class StreamToArrayTest{
+  public static void main(String[] args){
+    List<Integer> integers = Arrays.asList(1,3,3,4,9,4,5,5,6);
+    Integer[] intArray = integers.stream().toArray(Integer[]::new);
+    for(Integer num:intArray){
+      System.out.println(num);
+    }
+  }
+}
+
+Stream.of() method
+------------------
+We can also apply stream for group of values and arrays.
+
+Stream s=Stream.of(99,999,9999,99999); 
+s.forEach(System.out:: println);
+Double[] d={10.0,10.1,10.2,10.3}; 
+Stream s1=Stream.of(d); 
+s1.forEach(System.out :: println);
+
+Date and Time API(JODA Time API)
+--------------------------------
+Untill Java1.7 the classes present in the java.util package to handle Date and Time (like Date, Calendar, TimeZone) etc are not 
+upto the mark wrt convenience and performance.
+to overcome this problem in java version 1.8 oracle people introduced Joda-Time API. This API was developed by joda.org and available 
+in java in the form of java.time package.
+
+import java.time.*;
+public class DateTimeDemo{
+ public static void main(String[] args){
+   LocalDate date = LocalDate.now();
+   System.out.println("Local Date: "+date);
+   LocalTime time = LocalTime.now();
+   System.out.println("Local Time: "+time);
+ }
+}
+
+once we get the LocalDate object we can call different methods to retrieve day, month and year values respectively.
+import java.time.*;
+public class DateTimeMethodsDemo{
+ public static void main(String[] args){
+   LocalDate date = LocalDate.now();
+   System.out.println("Date: Day/Month/Year: "+date.getDayOfMonth()+"/"+date.getMonthValue()+"/"+date.getYear());
+   LocalTime time = LocalTime.now();
+   System.out.println("Time: Hour/Minute/Second/NanoSeconds "+time.getHour()+"/"+time.getMinute()+"/"+time.getSecond()+"/"+time.getNano()+"/");
+ }
 }
 
 

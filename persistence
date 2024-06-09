@@ -1,13 +1,1 @@
-persistence deals with storing the data into database from java application and retrieving the data back from the database into an 
-application, however there are many ways this is done few of them relevant to java are as follows
 
-jdbc -> absolute as there are more drawbacks than advantages
-hibernate/jpa -> now relevant in the java world
-spring data jpa -> similar to hibernate/jpa providers further abstraction on top of jpa like repositories automatic query generation
-for method names, integration with other spring modules such as spirng mvc, spring boot, spring security etc.
-
-even though the spring data jpa is a best choice in the spring environment in order to understand all the concepts from the scratch
-hibernate knowledge is essential. spring data jpa is another wrapper around jpa just like jpa is wrapper around jdbc. 
-
-jdbc in detail
---------------

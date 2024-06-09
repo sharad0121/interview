@@ -1138,8 +1138,81 @@ public class DateTimeMethodsDemo{
    System.out.println("Date: Day/Month/Year: "+date.getDayOfMonth()+"/"+date.getMonthValue()+"/"+date.getYear());
    LocalTime time = LocalTime.now();
    System.out.println("Time: Hour/Minute/Second/NanoSeconds "+time.getHour()+"/"+time.getMinute()+"/"+time.getSecond()+"/"+time.getNano()+"/");
- }
+   LocalDateTime datetime = LocalDateTime.now();
+   System.out.println(datetime);
+   LocalDateTime dt1 = LocalDateTime.of(1995,Month.APRIL,28,12,45); 
+   System.out.println(dt1);
+   System.out.println("After six months:"+dt1.plusMonths(6)); // there are methods to access Years, Months, Weeks, Days, 
+   System.out.println("Before six months:"+dt1.minusMonths(6)); // Hours, Seconds, Nanos in the past or future of current LocalDateTime
 }
+}
+
+Zone
+----
+ZoneId object can be used to represent zone.
+package org.example;
+import java.time.*;
+public class DateTimeApiZoneDemo {
+    public static void main(String[] args) {
+        ZoneId zone = ZoneId.systemDefault();
+        System.out.println(zone);
+        // we can crete a zoneid for a particular zone
+        ZoneId tokyoZone = ZoneId.of("Asia/Tokyo");
+        System.out.println(tokyoZone);
+        // we can create a DateTime object with respect to zone using ZonedDateTime
+        ZonedDateTime tokyoTime = ZonedDateTime.now(tokyoZone);
+        System.out.println(tokyoTime);
+    }
+}
+
+Period 
+------
+Period object can be used to represent quantity of Time
+
+import java.time.*;
+
+public class DateTimeAPIPeriodDemo{
+  public static void main(String[] args){
+  LocalDate now = LocalDate.now();
+  LocalDate birthday = LocalDate.of(1989,10,25);
+  Period period = Period.between(birthday,now);
+  System.out.println("Your age is: "+period.getYears()+" years, "+period.getMonths()+" months, "+period.getDays()+" days.");
+  }
+}
+
+example: WAP to check if the given year is a leap year or not.
+
+import java.time.*;
+public class DateTimeAPILeapDemo{
+    public static void main(String[] args){
+        Integer yearInt = Integer.parseInt(args[0]);
+        Year year = Year.of(yearInt);
+        if(year.isLeap()){
+            System.out.println(year+" is a leap year.");
+        }
+        else{
+            System.out.println(year+" is not a leap year.");
+        }
+    }
+}
+
+javac DateTimeAPILeapDemo.java
+java DateTimeAPILeapDemo 2000
+2000 is a leap year.
+
+Normal Leap logic:
+public class NormalLeapDemo{
+    public static void main(String[] args){
+        Integer year= Integer.parseInt(args[0]);
+        boolean leap = ((year & 3) ==0) && (year%100 != 0 || year%400 == 0); // here & is a bitwise and operator for e.g. 4 is 100 
+        if(leap)                                                             // and 3 is 011 so this never becomes 1
+            System.out.println(year+" is a leap year.");
+        else
+            System.out.println(year+" is not a leap year.");
+    }
+}
+
+
 
 
 

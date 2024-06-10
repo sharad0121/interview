@@ -1,1 +1,709 @@
+there are many persistence technologies available in java but the widely used framework are hibernate/jpa/spring-data-jpa
+spring data jpa abstracts lot of things and we can not start learning spring-data-jpa, however hibernate covers each and every topic in 
+depth. It is one of the JPA implementation. 
 
+
+----------------------------------------------------------------------------------------------	
+Hibernate Framework and Jpa api
+
+Pre-requisite:-
+1.Core Java
+	Oops principles
+	interfaces and abstract classes
+	inheritance
+	collections
+	i/o streams
+	multi-threading
+	concurrency
+	synchronization
+	serialization
+	exception handling
+	streaming api
+	lamda
+	generics
+2. jdbc api [good programming knowledge is required]
+3. database technology
+	1. tables
+	2. constraints
+		- primary key
+		- foreign key
+		- unique key
+		- composite primary key
+	3. sql
+		- ddl [create, alter, drop, truncate]
+		- dml [insert, update, delete]
+		- dql [select, aggregate, joins, inner queries, correlated sub-queries, having, groupby]
+	no pl/sql knowledge is required for hibernate
+4. good to have basic knowledge of servlet programming, but no mandatory
+-----------------------------------------------------------------------------------------------
+Hibernate and Jpa api, course content
+1. Introduction to Persistence Technology [10 days]
+	1.1 what is persistency, why do we need to permanently store the data 	
+	1.2 File-based Persistency technics
+		- various different formats of persisting the data on a File 
+		- what are the dis-advantages in File based persistency
+	1.3 what is a database management system, why those are introduced
+		- types of databases
+		- compare rdbms, no-sql, object-storage database
+				
+2. Basics of Relational database management system [10 days] 
+	- Tables
+	- Relationships
+	- Normalization and 3 Normal Forms
+	- How to establish Relationship between the Tables
+		- one-to-one
+		- one-to-many
+		- many-to-many
+
+3. Problems in persisting the data using jdbc api in relational database management system, how to overcome it using ORM technology [5 days]		
+	3.1 Introduction to Hibernate Framework and Jpa api
+
+4. How to overcome the dis-advantages with Jdbc api and perform persistency operations [generic coding] [7 days] [mini hibernate framework]
+-------------------------------------1 Month 10 days approx------------------------------------
+		
+Hibernate 5 & Jpa 2.1 
+XML Configuration and Annotation 
+		
+5. Basic Hibernate Api and objects
+	- hibernate mapping file
+	- hibernate configuration file
+	- what the hibernate objects [Session, SessionFactory, Configuration]
+6. Working with Hibernate Transactions
+7. Hibernate Bootstrapping
+	1. Hibernate 3 legacy
+		1. programmatic approach
+		2. properties approach
+		3. xml-based approach
+	2. Hibernate 4 [Custom Hibernate Service in customizing the Hibernate Framework]
+	3. Hibernate 5
+8. Get vs Load
+9. Introduction to Jpa api
+	- working with Jpa api
+		- configuration approach
+		- annotation-driven approach
+10. Hibernate First-level caching
+11. ID Generators [xml|annotation]
+		- Hibernate ID Generators
+		- Jpa ID Generators
+12. Entity Object lifecycle
+13. DML operations  [Hibernate | Jpa]
+
+-------------------------- [very important](realtime) ----------------------------------------
+14. Inheritance Mapping model [hibernate | Jpa] [xml|annotation]
+		1. Table per class hierarchy
+		2. Table per sub-class
+		3. Table per concreate class
+15. Assocation Mapping model [xml|annotations][hibernate|jpa][uni-directional|bi-directional]
+		1. One-To-One association mappings (2ways)
+		2. One-To-Many
+		3. Many-To-Many
+16. 
+		Fetch Types
+		Inverse *****
+		Cascade *****
+		N+1 problem in Hibernate ******
+17. HQL|JPQL Queries (joins)
+		Named-Queries
+		Named Parameters
+		Jpa api | Hibernate5 api
+		
+18. Criteria Api 
+	Hibernate Criteria api is deprecated and removed in Hibernate5
+	Jpa api Criteria Api (joins)
+
+19. Hibernate 2nd Level Caching
+
+-----------------------------------
+what is Persistence and why do we need to store data permanantly on a storage device of a computer?	
+
+Persistency is all about permanently storing the data on a secondary storage (Harddisk) device of a computer system, 
+so that it can accessed and used at later point of time.	
+	
+Kirana store
+# with more quality and production availability and fair price of the products
+- more customers started walking into the store
+	# expanded the store and production varieties to meet increasing customers
+	# along with that I added more staff also to help/guide customers in their shopping
+		- more customers has been added, so that reputation of the business has been increased 
+	due to the increasing shopping cart and quantity of purchase it is taking more time for billing the products 
+and collecting the amount from the customers, due to manually writing the bill and calculating
+	
+	Calculator = Is the first computing device introduced into the world in helping perform mathematical operations
+-----------------------------------------------------------------------------------------------
+Now by adding Calculator to the store, it became a revolutionary thing in helping store/business man in conducting the business
+	- faster calculations
+	- higher accuracy
+in conducting the operations
+-----------------------------------------------------------------------------------------------
+	With faster services being offered, now more number of customers started coming to the store and purchaing more volumes of products
+	
+To hold and perform billing operations with volumes of products for the customers we need a memory for the calculator through which we can keep track of the data we fed asking the calculator to perform operations, so that we can avoid manually writing the product prices on a piece of papper to keep track and enter into calculator.
+Calculator + Check buttons are introduced
+-----------------------------------------------------------------------------------------------
+3/4 products
+Salt = 25 - 2 (23)
+Colgate Paste = 55 (3) = 52
+Lux soap = 28 (1) = 27
+Sugar = 40 (2) = 38
+----------------- bill amount = 140
+next day
+lifebouy soap = 14 * 2 = 28 = lux soap
+
+-----------------------
+What is persistency?
+Persistency is all about storing the data and accessing the data permanently on a computer storage device.
+	
+Why do we need to persist the data permanently on a storage device of a computer?
+Even though the store keeper is using the computing device or a calculator, still he has to maintain the data on a piece of paper 
+and track it and manually enter into the calcuator which is taking huge amout of time.
+	
+unless the store owner writes the data on paper he cannot keep track of the information	of what has been entered/fed to calculator
+which is actually taking lot of time,instead of if the calculator itself can memorize the data and allows me to track, 
+i can avoid writing the data on a paper. that is where along with computing we need memory also to calculating device.
+	
+Naturally the business data has to stored for longer amount of time for deriving various different types of calculations on top of it.
+How to maintain the data permanently for longer amount of time?
+Write the data on a book/keep track of the information by writing on paper, so that he refer it and use it in future permanently.
+	
+If we maintain the data on a peice of paper manually we run into several problems:
+1. it takes lot of time in writing the data on a piece of paper to maintain it permanently
+2. The information written by the people may not be legitimate or easy to read and difficult understand as different people 
+has different style of hand writing
+3. searching the data and identifying the data infuture may a take lot of time and sometimes we may not be able to find the 
+data as well we are looking for
+4. The data we stored on the paper has wear and tear, where after certain amount of time in future, the information 
+we wrote may disappear/vanish or might tored by nature, so it is not permanent
+5. any one can access the data that is written on the paper there is no security
+6. The data that we have stored on the book/paper is not being used for one-time, it is the data that has to be repeatedly used 
+for performing different types of operations where repeatedly we might have to enter the data into a computing device which takes 
+huge amount of time
+
+From the above we can understand storing/writing the data manually on a book has several problems, 
+instead of it if we can somehow someway can keep the data permanently on the computer system itself, 
+the programs by themself can read the data that has been stored and can quickly compute/perform operations 
+and provide the outcome to us. that is where we need permanent storage of data on a computer, which is called persistency.
+	
+advantages of storing the data permanently on the computer storage device:
+1. there are various ways we can input and enter the data into the computer quickly there by which the data is stored permanently
+and can reused for computing rather than entering repeatedly which saves lot of time.
+2. the information stored is highly legitimate
+3. searching and identifying the data that has been stored is quick and easy
+4. the data that has been stored on a computer will never vanish over the lifetime, 
+there is no wear and tear for the data
+5. higher security
+6. we dont need to repeatedly enter the same data to perform different operations into computer, 
+since the data has been stored permanently on the computer itself the programs bythemself can quickly read and perform operations
+
+++++
+2. Why do we need to persist the data for a longer amount of time permanently on a computer storage device?
+The business data that flow into the business has to stored for longer amount of time for future usage, 
+because we are going to perform various different types of computation operations on that data whenever required.
+	
+We can store the data permanently on a piece of paper or a booking keeping of information. 
+but there are lot of problems in storing the data on a paper or book manually.
+problems:-
+	1. time consuming in capturing and writing the data on a book/paper
+	2. data is not legitimate
+	3. information we wrote on the book/paper has wear and tear and might vanish in future
+	4. searching and reusing the data is going to be difficult
+	5. no security in protecting the access to the data
+	6. everytime in order to compute the data using the computing device we need to manually enter the data into the computer 
+by looking at the information we stored on the book which is a very time consuming operation
+
+Instead of storing or writing the data on a piece of paper or a book, if we can directly store the data 
+on computer device/system itself permanently we get lot of benefits
+	1. entering the data into the computer is not difficult and time consuming as there are many mechanisms or input devices 
+through which we fed the data as an input to the computer, once fed we can store it permanently as well for future reuse
+	2. information is quite legitimate
+	3. no ware and tear
+	4. searching and identifying the data is very easy and quite fast
+	5. more secured than writing on a paper
+	6. everytime when we want to compute the data we can write application programs to quickly read the data from the storage 
+itself in performing the operation which results in quite faster computation of the information
+-----------------------------------------------------------------------------------------------
+3. How to store the data permanently on a computer system?
+We can store the data on an secondary storage device of a computer based on Filesystem technics. 
+The FileSystem technic allows us to store the data interms of Files and Folders of a computer
+1. File = File is a logical memory unit on a secondary storage of a computer in which we can stores 
+characters/bytes of data which can be accessed uniquely using the Name of the File.
+		
+2. Folder = We can group bunch of related files and keep inside a folder for quickly locating and accessing the data
+-----------------------------------------------------------------------------------------------
+How to store the data on the Files?
+We can store the data on a File as a text of information or a sequence of set of charaters. 
+but the information we stored on a File of a computer not only should be understood by a human,
+we wanted software programs also to read, interpret and perform the operation.
+	
+But we are storing the data in a text of characters it can be understood only by the humans only, so how to store the data on a File,
+where it can be understood by both humans and software application as well?
+	
+That is where data representation standards are introduced. There are 2 representations/formats of storing the data on a file of 
+a computer are introdued.
+	1. human understandable format
+	2. machine/programable format
+	
+What are the programmable formats of storing the data on a File of a computer are there?
+There are several programmable formats of storing the data are available, l
+et us explore each of the ways of storing the data and understand their advantages and dis-advantages of storing the data.
+
+How to store the data permanently on a storage device of a computer?
+We can store the data on the permanent storage device of a computer using File Sytem technics interms of Files/Folder on a computer.
+
+File: File is a named logical memory location where group of data stored in terms of characters/bytes which can read/accessed uniquely
+Folder: Collection of Files grouped to gether to quickly locate and access is called a Folder
+
+How to store the data in Files?
+We can store the data in files interms of text/sequence of characters inside it. when we store the business data in the files,
+we can read it and understand, but we wanted programs/software applications to read and process the data that is stored in the Files.
+	
+Programs cannot understand the data that is stored interms of text of characters as programs cannot interpret natural/human language 
+so we need to store the data in the file in a format where humans and programs also should be able understand and perform operations 
+that where we have 2 formats of storing the data
+
+1. Human understandable format
+2. programmable/machine understand format
+
+How to store the data in programmable or machine understandable format?
+There are experts in the market performing research on how can we effectively store the data on a File so that programs can also 
+read and perform operation and has introduced several forms of storing the data, let us explore those formats
+
+Business data usually contains multiple fields of information, instead of capturing the data in a natural language, 
+if we can extract those fields of data and store in a specific format in a file, then we can program the data.
+	
+
+1. Fixed width field size format (FWFSF)
+In Fixed width field size format, each field of information is assigned a fixed width using which we store the data in 
+a specific order of fields
+Rules:-
+	1. all the records should have same set of fields
+	2. For each record the fields should be stored in same order
+	3. Each field should be given fixed size
+for eg in a sale record we have below fields defined with each field size as shown below	
+customername = 12
+sale_dt = 10
+quantity = 3
+total_amount = 5
+discount = 3
+paid_amount = 5
+--------------------
+	            38 * 200 = 7900
+---------------------
+based on above semantics or data definition we can store the data in below format on the file	
+
+andrew      07/01/20220100200020001800
+jack        07/01/20220120180018001620 
+stephen     08/01/20220330239923002169
+
+replace jack with jackson
+
+		
+Now we can write program in java which can read each record and extract the fields of data based on the field sizes and 
+perform operation
+
+advantages:-
+	1. the data is both human and machine understandable format
+	2. it supports both sequential and random access of the data, 
+at any point of time we can jump onto a specific record in the file and can read it because each record has fixed set of characters 
+in length
+	3. modifying the field of information is very easy since each field has fixed in size
+
+dis-advantages:-
+	1. huge amount of memory is wasted because of fixed width
+	2. 
+
++++
+There are 2 formats in which we can store the data on a File
+1. Human understandable format
+2. Programmable/Machine Understandable Format
+
+How to store the data on a File in programmable/machine understandable format?
+In business data there are several fields of information will be on which we perform business operation, 
+extract the fields of data and store them in a representation format which can be identified and processed easily.
+To help us in storing these fields of data, there are several programable formats are introduced as below.
+	
+#1. Fixed with field size format
+--------------------------------
+For each field of input define the fixed size with which we need to store the data.
+rules:-
+	1. all the records should have same number of fields
+	2. all the records should have fields appeared in same order
+	3. all the fields should be of fixed in size
+if we follow above rules in storing the data, it can be extracted and processed using the software programs by reading the information record by record (or) line by line and delimiting the fields based on field sizes and can perform processing
+
+advantages:-
+	1. both human readable and programmable format
+	2. we can access the data sequentially and randomly as well
+	3. we can modify the fields of information easily
+	
+dis-advantages:-
+	1. huge amount of memory will be wasted because of fixed field sizes, always the business data is huge and the more the amount of data we store the more wastage of memory would be resulted by storing the data in Fixed with field size format
+	2. Its quite difficult in deriving the field sizes in storing the data, unless we have past historical data we cannot determine the nature and size of the data. in case of no historical references we need to make assumptions in deriving the fields sizes which might result in either too small or too large in holding the data which might result in failure of capturing the data
+	3. always the business is an changing entity, the assumptions under which we constructed and stored the data with fixed field sizes may not be suitable in future due to change in business conditions, in such case we might have to modify the field sizes based on the business changes, accomadating such changes in the field sizes is not so easy.
+	it requires re-formatting the existing data which we captured earlier based on the new boundaries of the fields along with that we need to re-develop/modify the software applications in processing the data based on new boundaries which we redefined. it seems quite complex job and requires huge amount of time and redevelopment cost inccurs because of changes in the boudaries of the data
+	
+From the above we can understand Fixed-width field size format is not suitable for storing large volumes of data which is especially business data and accomodating the changes in future seems to be quite complex and not recommended to use
+
+#2. comma-separated value (csv) format
+---------------------------------------
+In csv format we capture and store the fields of the business data delimited by "," to identify the fields rather than "fixed-with", so that we can identify the fields based on "," and process them easily
+
+daysales.csv
+-------------
+stephen,08/01/2022,10,2000,200,1800
+andrew,08/01/2022,13,1800,180,1620
+	
+We can write program which can read the record of data line by line and delimite the data by "," to identify the fields and extract the data to process it
+
+advantages:-
+	1. both human and machine readable
+	2. no need to have historical data or no need to make any assumptions in deriving the boundaries of the data. one can quickly jump start in storing the fields of data in csv format without any business decisions or brain storming
+	3. no wastage of memory as there are no field sizes defined
+	4. it is flexible and suitable for storing business data as the fields sizes are not restricted
+dis-advantages:-
+	1. doesnt support random access of the records of data because we cannot derive the record size to jump to a specific record in the file
+	2. modifying the field of information is quite complex as we need to shift or unshift the data to accomodate space in writing the modified data, we need to write complex programming in modifying the fields of information
+	3. searching and identifying the data based on a field is very difficut as we dont the boundaries of the fields to search
+	4. if the actual data itself contains the "," then deriving the boundaries of the data is not possible and semantics of the data will be broken
+	
+looks like csv format of storing the data has quite a number of disadvantages like
+1. performing file operations like modifying the data for a field, or searching a record or deleting a record or inserting a record requires huge amount of complex logic to handle these operations
+2. business data in general can container any arbitary set of characters, in such case if the actual data itself contains "," the information stored will not be interpreted properly and the data will be mis-read
+
+so csv is not an ideal choice for storing business data.
+	
+3. Extensible Mark-up Language (XML)
+------------------------------------	
+XML Stands for extensible markup language, it is not programming language, rather it is used for storing the data on a File, so that we can easily read the data and perform operations on it. Anything that is stored interms of tags is called markup since xml uses tags for representing data it is called markup language
+
+daysales.txt
+-------------
+<sales>
+  <sale>
+		<customername>joseph</customername>
+		<sale-dt>08/01/2022</sale-dt>
+		<quantity>10</quantity>
+		<total-amount>2000</total-amount>
+		<discount>200</discount>
+		<paid-amount>1800</paid-amount>
+	</sale>
+	<sale>
+		<customername>andrew</customername>
+		<sale-dt>08/01/2022</sale-dt>
+		<quantity>13</quantity>
+		<total-amount>1800</total-amount>
+		<discount>180</discount>
+		<paid-amount>1620</paid-amount>
+	</sale>
+</sales>
+
+in xml we store the data intags, so that tags are used for representing the semantics of the data, we can easily understand which data is representing what information by looking at the tags in which the data is bounded. using the tags we can identify the boundaries of the data easily based on start/end tag
+The biggest advantage of storing the data in xml format is each field has semantics attached and well-defined boundaries are there, so there is no chance of mis-interpreting the data if we store in xml formation
+
+advantages:-
+	1. human and machine understandable format
+	2. semantics and structure of data can help us in easily deriving the data, there is no chance of mis-interpreting the data
++++
+2. comma separated value (csv) format
+--------------------------------------
+each field of information is stored by delimited or separated through "," comma so that each record can be read and we can extract the fields of information based on delimiter and perform the operation
+
+advantages:-
+	1. both human and machine readable
+	2. no memory wastage as the fields are not have fixed width
+	3. no need to spend time on deriving the field sizes and no historical data references are required to define data boundaries in storing the data, all the complexities in deriving the boundaries are gone
+	4. we dont need to reprogram the applications or reformat the data as boundaries of the data are derived based on "," comma
+dis-advantages:-
+	1. only sequential access is supported, no random access is supported as the fields/records are not fixed in length
+	2. performing file handling operations are very complex 
+	3. if the actual data itself contains the "," then the data would be mis-interpreted and boundaries of the data will be broken
+	
+looks like the boundaries of the data cannot be derived easily and there is a high chance of mis-interpreting the data, it is not suitable to store business data as part of csv format we need an alternate way of storing the data on a file in a programable format
+
+3. eXtensible markup language (xml)
+XML stands for eXtensible Markup Language. XML is not an programming language, xml is used for storing or representing the data. XML uses tags for storing the data aspart of it so it is called "markup language".
+	
+daysales.xml
+--------------
+<sales>
+	<sale>
+		<customername>stephen</customername>
+		<sale-dt>08/01/2022</sale-dt>
+		<quantity>10</quantity>
+		<total-amount>2000</total-amount>
+		<discount>200</discount>
+		<amount-paid>1800</amount-paid>
+	</sale>
+	<sale>
+		<customername>andrew</customername>
+		<sale-dt>08/01/2022</sale-dt>
+		<quantity>13</quantity>
+		<total-amount>1800</total-amount>
+		<discount>180</discount>
+		<amount-paid>1620</amount-paid>
+	</sale>
+</sales>
+
+We can easily understand the semantics of the data and boundaries of the data in xml as the data is sourrounded by tags.
+	
+always we store the information pertaining to the objects that exists in realworld when it comes to business data and always the realworld objects will have relationships. how to store the data along with relationship between them in case of Fixed-with field size format or csv format.
+	
+The fixed-width field size format or csv format are linear representation formats which doesnt support establishing relationship between the data, the only way to represent relationship is by writing the data in a single line which eventually results in duplication of the data.
+	
+So we need an data representation standard that not only allows us to read the information through programs, it allows us to represent relationship between the data in an effective way that is where XML format was introduced
+
+XML supports representing the relationship between the data using hierarchial format.
+	
+daysales.xml	
+<customers>
+	<customer>
+		<customername>stephen, k</customername>
+		<mobile-no>90387343</mobile-no>
+		<email-address>stephen@gmail.com</email-address>
+		<sales>
+			<sale>				
+				<sale-dt>08/01/2022</sale-dt>
+				<quantity>10</quantity>
+				<total-amount>2000</total-amount>
+				<discount>200</discount>
+				<amount-paid>1800</amount-paid>
+			</sale>			
+			<sale>				
+				<sale-dt>09/01/2022</sale-dt>
+				<quantity>18</quantity>
+				<total-amount>3000</total-amount>
+				<discount>300</discount>
+				<amount-paid>2700</amount-paid>
+			</sale>
+		</sales>
+	</customer>
+	<customer>
+		<customername>andrew</customername>
+		<mobile-no>09939348</mobile-no>
+		<email-address>andrew@gmail.com</email-address>
+		<sales>
+			<sale>
+				<customername>andrew</customername>
+				<sale-dt>08/01/2022</sale-dt>
+				<quantity>13</quantity>
+				<total-amount>1800</total-amount>
+				<discount>180</discount>
+				<amount-paid>1620</amount-paid>
+			</sale>			
+		</sales>		
+	</customer>
+</customers>
+
+xml is an simple text/character representation format where data is represented in character format, so it can be carried across any operating system and programming language so xml is highly interoperable.
+	
+advantages:-
+dis-advantages:-
+++++++++++
+There are 2 formats in which we can store the data on a File
+1. human understandable format
+2. machine/programmable format
+
+There are several data representation standards available in storing the data in programmable/machine understandable format.
+1. Fixed-Width Field size format
+2. Comma separated value (csv) format
+3. XML (eXtensible markup language)
+	
+
+3. XML [eXtensible markup language]
+-----------------------------------
+XML is not an programming language, rather it is used for storing/representing the data. xml allows us to store the data using tags. tags helps us in deriving the semantics and boundary of the data. so that there is no chance of mis-interpreting the data 
+
+the fixed-width field size format or csv format are linear data representation models, which doesnt support representing relationship between the data, but business data often contains relationships which can be represented using xml
+
+xml stores the data in hierarchial model permiting us to establish relationship between the data as parent/child. The xml is a text based data representation standard which made it inter-operable, which means any language or any operating system we can read/process xml
+
+advantages:-
+	1. both human readable and programmable format
+	2. the data is stored in structured format with semantics and boundaries, so there is no chance of mis-interpreting the data
+	3. it is highly inter-operable
+	4. finally we have an data representation standard that supports relationship between the data
+	5. we can read the data sequential and random as well 
+	6. there are many programming methodologies available for reading/writing the data into xml format like (dom, sax, stax, xquery, xpath etc)
+dis-advantages:-
+	1. xml is too verbose, most of the time we endup in writing more data than the actual data we want to store, interms of tags. so that it waste huge amount of storage memory for storing the data
+	2. unlike csv, fixed-with field size format, writing the data in xml is not easy, a common-man or an computer iliterate cannot find it easy to understand the rules/syntax over writing the data in xml format. a prior knowledge or understanding the xml rules/syntax are required.
+	3. since these are hierarchial data representation model, they consume huge cpu/memory while processing xml, so not ideally suited for processing large volumes of data
+	4. There are too many programming methodologies are available around processing xml like stax, dom, sax, xpath, xquery etc which are tool complicated to understand and work with
+	5. The learning curve involved in learning xml technologies and related methodologies is very high
+	
+From the above we can understand xml is not suitable for storing business data since it is verbosed and takes more cpu/memory for processing xml when the data volumes are high. xml is an ideal choice for storing the configuration data.
+
+In addition to the above problems with various data representation standards we discussed till now, there is an another common problem is there as below.
+All of the data we stored in any format, we want to read and perform operations using the programs.
+The java programs usually holds the data interms of objects inorder to perform the processing, but any of the formats like fixed-with-field size format, csv, or xml doesnt allows support storing object representation of data, so we need to write the program for reading the data from native format and convert into objects to perform operation which requires huge amount of development time and complexity in writing the programs in coverting the data.
+	
+Instead if we can store the data directly interms of objects into file, we can read them quickly and perform operation that is where Serialization is introduced.	
+	
+4. Serialization
+-----------------
+Serialization is a java technology using which we can convert the state of an object into bits and bytes so that we can store 
+the data on a file or write to any output stream whereever we want. along with that we can deserialize the data and build them back 
+into objects as well.
+	
+any how java programs requires data interms of objects to perform operation, so if we can directly convert object of data into 
+bits and bytes and store it on a file, we can quickly de-serialize them and perform operation whenever we want 
+so that we can avoid writing code for converting the data into object format.
+	
+advantages:-
+	1. the data we stored in serialized format cannot be read by anyone only programs can read/write the data, so it is highly secured.
+	2. no need to write data conversion logic in coverting the data into object format or while storing the from object 
+into native format which removes lot of programming efforts in reading/writing the data and complexity in handling the data becomes zero
+	3. quite faster in processing the data since there is a native support by language itself in reading and writing
+dis-advantages:-
+	1. not human readable only machines/programs can read the data which is an biggest dis-advantage
+	2. not inter-operable, only java programs only can read the data other languages doesnt understand serialization format
+	3. to work with multiple/bunch of data we need to collection classes in serializing and de-serializing, 
+which requires whole data to be read/written for any change which is a huge performance impact
+	
+since it is java technology specific and doesnt support human readable not a choice for storing business data.
+
+++++++++++++++++++++++
+XML (eXtensible markup language)
+advantages:-
+	1. both human and programs can read and understand the data
+	2. all the information we stored in xml is structured and semantics are attached, we can easily derive the boundaries of the data,
+so there is zero chance of mis-interpreting the data when we store the data in xml format
+	3. XML is highly inter-operable, it is portable across all the platforms and languages
+	4. XML not only allows to store the data, it permits us to represent relationship between the data using hierarchial representation
+format
+	5. supports both sequential and random access as well in reading the data
+	6. there are lot of methodologies available like stax, sax, dom, xquery, xpath using which we can processes the data that is stored in xml format
+dis-advantage:-
+	1. too verbosed, more than the data the semantics of the data is more in describing the data, so lot of memory will be wasted
+	2. novoice/computer iliterate cannot use xml, unless a prior knowledge of xml is required to use it
+	3. hierarchial representations like xml takes more cpu and memory for processing the data, so not suitable for handling large volumes of data
+	4. too many technologies are available around working with xml, that makes most of the people complicated to use or understand xml
+	5. learning curve required to learn xml will be very high and even complex 
+
+by considering the above things looks like xml is not suitable for storing/representing business data since 
+the business data will be in large volume. XML is well suitable for storing configuration information of an application/components which is limited in size
+
+In java applications we want to process the data by keeping them in java objects, but none of the data representation standards supports 
+storing the data in object format, so we need to write code for reading the data from underlying format and convert into objects to and fro as well, which requires lot of complex logic to be written and development time is also quite high to rescue from the above problem we can use serialization
+
+#4. Serialization
+-------------------
+Serialization is about converting the state of an object into bits and bytes format, so that we can write to an outputstream. in addition we can read the bits/bytes of data from an inputstream and convert into object representation using de-serialization technic
+
+Now we can store the data interms of objects and can covert the object state into bits/bytes format and write into File directly and viceversa so that we dont need to write data conversion logic in tranforming the data from underlying data representation format to object or object to data representation format
+
+for eg.. if we store the data in csv format as below and need to populate into Sale class object, then the programmer has to write logic for parsing the record of data in csv format extract the fields and populate into corresponding attributes of the Sale class object 
+In the other way if we want to store Sale class object into csv file, again we need to write logic for coverting object data into csv format to write it or append to the file
+
+joseph,10/01/2022,20,2000,200,1800
+	
+class Sale {
+	String customerName;
+	Date saleDate;
+	int quantity;
+	double totalAmount;
+	double discount;
+	double paidAmount;
+	// setters and getters
+}	
+
+will be quite complex and huge amount of code need to be written in performing the operation. instead of it use serialization which has native support for transforming the object data into bits so that we can store on a File 
+
+advantages:-
+	1. data is more secured, no one can read the data apart from application/program
+	2. we can eliminate complex transformation logic in coverting data from representation to object and viceversa
+	3. as there is a native support in reading/writing the data directly from input/output stream the data processing will be very fast
+
+dis-advantage:-
+	1. humans cannot read the data, only programs can read the data
+	2. not inter-operable, only java programs only can read serialized data
+	3. doesnt works well with collection of records or objects since the whole collection should be serialized or deserialized	
+it is not suitable for processing business data.
+	
+From the above data representation formats we derived typical requirements in persisting the data 
+1. both human understandable and programmable format
+2. should be structured, with well defined semantics and has to have boundaries of the data
+3. inter-operable
+4. should support representing relationship between the data
+5. no memory wastage in storing the data
+6. support sequential and random access of the data
+7. should be secured 
+8. should have minimum cpu and memory requirements in processing the data
+9. should be capable of handling large volumes of data with minimal storage space and processing capacity
+10. quick to learn and easy to use
+
+when we are working with File-based persistency we need to write 2 types of logic
+1. persistence logic for storing and accessing the data from a File
+2. business logic for processing the data
+
+looks like within a typical application, most of the time developer has to write logic for storing/retrieving the data than business logic due to which the amount of development time and cost of development of the application is very high.
+	
+How to overcome the above problems?
+That is where database management systems are introduced. database management system helps us in abstracting the underlying persistence aspects of storing/retrieving the data from a File System.
+	
+The programmer only has to write the logic for communicating with database management system asking to store/fetch the data, he dont need to bother about how the underlying data is stored and how to access it, the persistence aspects are abstracted from the programmer.
+	
+Now the we dont need to complex persistence logic in dealing with storing/retrieving the data from file, we just only need to write the logic for communicating with dbms and perform business logic, so that the amount of code and development time required for building the applications will reduce greatly. and cost of building the application comes down.
+	
+advantages:-
+	1. no need to bother about underlying data representation formats in choosing and storing the data, just pass the data to dbms it takes care of persisting it 
+	2. no need to write programming logic in searching, storing, retreiving, modifying or deleting the data, all these things are taken care by dbms 
+	3. highly secured 
+	4. most of the dbms supports representing relationship between the data
+	5. both human readable and programmable format
+	6. supports sequential and random access of the data
+++++++++++++++++++++++++++++++++
+drawbacks of file system
+------------------------
+developer as part of the programs has to write complex logic in storing and accessing the based on the data representation standard we have choosen which is quite complex
+While working with File-based persistency we need to write 2 types of logic
+1. data persistence logic ( File based persistence which might change along with the operating system)
+2. business logic in processing the data
++++++++++++++++++++++++++++++++++
+
+The typical requirements that has to be addressed while persisting the data on a permanent storage device are:
+1. data should both human readable and programmable format
+2. support sequential and random access of the data
+3. inter-operable, any language and any platform should be able to use the data
+4. should be able to represent relationship between the data
+5. should be structured and has to have semantics and boundaries of the data defined, 
+so that there is no chance of mis-interpreting the data
+6. data should be secured
+7. optimal in storing the data, and should not waste memory
+8. should be able to handle large volumes of data with minimal cpu and memory requirements
+
+now addressing above all these requirements in persisting the data on the Files are quite complex the programmer endup in writing 
+huge amount of logic for storing/retrieving the data where the cost of development and time required for building the application 
+goes quite high
+
+Since persisting the data permanently on computer storage device is a common requirement for every application, 
+instead of programmer taking care of managing the persistency aspects we can take the use of database management systems.
+	
+What is a database management system?
+Database management system is software that takes of managing the persistency aspects of storing/retrieving the data 
+on the permanent storage device of the computer. It abstracts the underlying persistency aspects of 
+1. how to store or 
+2. how to access, 
+3. in which data representation format we have to store the data on the underlying storage device
+are taken away from the programmer
+Now developer only has to write the logic for communicating with the dbms software pass the data asking to store,
+or request the data from dbms, so that managing the data persistency are handled by database. 
+due to which the amount of code we need to write in performing the persistency operations reduces greatly 
+and brings down development time and cost of developing the application.
+	
+Now most of the time developer works on building business logic of the application rather than spending time 
+on thinking about managing the persistency of the application.
+
+There are different types of database management system softwares are available.
+1. Hierarchial databases
+2. Network databases
+3. Relational database
+4. Object-oriented database
+5. No-Sql or semi-structured database
+6. object storage databases 
+
+#1. Hierarchial database management system
+-------------------------------------------
+In hierarchial database we store the data interms of Nodes where each node has 2 parts, data part and address part with in the data part we store the data and in address part we store the address of the parent node with whom the data is in relationship with. Since it is hierarchical databases always a node has one parent only and a parent can have any number of child nodes in relationship with.
+	
+Since we are storing the data interms of nodes ratherthan sequence of records of data on a file, performing persistence operations like updating, searching, deleting and inserting the data is quite easier as we just only need to manipulate the address of the nodes most of the time.
+	

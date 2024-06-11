@@ -1,3 +1,403 @@
 Spring Core:
 ------------
 
+class ShowSignupServlet extend HttpServlet {
+    public void service(httpReq, httpResp) {
+        Connection con = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        List<String> cities = null;
+        List<String> states = null;
+        List<String> coutries = null;
+				Cache cache = null;
+        try {
+						cache = Cache.getInstance();
+						if(cache.containsKey("cities") == true) {
+								cities = (List<String>) cache.get("cities");
+						} else {
+							Class.forName(driverClassname);
+							con = DriverManager.getConnection(url, un, pwd);
+							stmt = con.createStatement();
+							rs = stmt.executeQuery("select * from cities");
+							cities = new ArrayList<>();
+							while(rs.next()) {
+								cities.add(rs.getString("city_nm"));
+							}
+							cache.put("cities", cities);		
+						}
+            // query for states and coutries also and make a list of them
+            httpReq.setAttribute("cities", cities);
+            httpReq.setAttribute("states", states);
+            httpReq.setAttribute("countries", countries);
+            httReq.getRequestDispatcher("/signup.jsp").forward(httpReq, httpResp);
+        }catch(SqlException | ClassNotFoundException e) {
+            throw new ServletException(e);
+        }
+    }
+}
+
+Here even though the cities, states and countries will not change, but for each request we endup in repeadly reading the same data from database and forwarding to the jsp page, due to this the performance of the application will be impacted. So to overcome this problem we need to implement caching
+
+Cache Design Pattern
+---------------------
+Cache is used for storing the data in-memory, so that we can quickly access the data when we need avoiding fetching the data from the 
+source system (like a database or a file) so that we can optimize the performance in reusing the data.
+all the data we store in cache should be attached with identification so that we can quickly access the data we wanted from the cache.
+so we store the data in cache as key,value pair
+
+class Cache {
+	private Map<String, Object> dataMap;
+	private static Cache instance;
+	
+	private Cache() {
+		dataMap = new HashMap();
+	}
+	
+	public static synchronized Cache getInstance() {
+		if(instance == null) {
+			instance = new Cache();
+		}
+		return instance;
+	}
+	
+	public void put(String key, Object value) {
+		dataMap.put(key, value);
+	}
+	public Object get(String key) {
+		return dataMap.get(key);
+	}
+	public boolean containsKey(String key) {
+		return dataMap.containskey(key);
+	}
+	
+}
+
+so while storing the data in the cache group all the related data together, organize the data and store inside it.
+List<String> cities = store cities list in cache with key "cities", list(string)
+		                                                      "states", list(string)
+		                                                      "countries", list(string)
+	
+bean scopes
+1. singleton
+2. prototype
+--------------
+3. request
+4. session
+
+Aware Interfaces:
+----------------
+Aware Interfaces
+-----------------
+Aware interfaces are also called as "Aware Injection" and it is even called as "interface injection". 
+The struts 2.0 supports supports dependency injection through interface injection only
+
+due to few reasons: we want to avoid injecting Rocket into LaunchPad, (let us understand the reasons later)
+if we dont want to inject Rocket into LaunchPad means, there are only #2 options left
+1. create the object of Rocket inside the LaunchPad class methods
+2. pull the object of Rocket inside the LaunchPad class
+
+instead of creating, it looks like pulling is a better option even though we still have tightly coupling with logical classname 
+of another class.
+
+To pull the object, someone has to create the object, the responsibility of creating the objects is taken care by ioc container, 
+so that I can pull the object from the ioc container. In order to pull the object from ioc container we need BeanFactory
+(nothing but ioc container).
+	
+
+class LaunchPad {
+	
+	void lauch() {
+		Rocket rocket = null;
+		BeanFactory beanFactory = null;
+		
+		beanFactory = new XmlBeanFactory(new ClassPathResource("com/ai/common/application-context.xml"));
+		rocket = beanFactory.getBean("rocket", Rocket.class);
+		rocket.propel();
+		sop("launched rocket");
+	}
+	
+}	
+
+class Rocket {
+	int rocketNo;
+	String rocketName;
+	int weight;
+	
+	void propel() {
+		sop("rocket propelled..");
+	}
+}
+
+application-context.xml
+------------------------
+<bean id="rocket" class="Rocket">
+	<property name="rocketNo" value="29"/>
+	<property name="rocketName" value="I932"/>
+	<property name="weight" value="3934"/>
+</bean>
+<bean id="launchPad" class="LaunchPad">
+	<property name="rocket" ref="rocket"/>
+</bean>
+
+Test.java
+---------
+BeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("com/ai/common/application-context.xml"));
+LaunchPad launchPad = beanFactory.getBean("launchPad", LaunchPad.class);
+launchPad.launch();
+
+In the above code we have a problem:
+Inside the LaunchPad:launch() method we are unnecessarily creating one more ioc container to pull the object of rocket bean definition.
+whereas we have an existing ioc container created in test class, that already has rocket bean definition inside it. 
+instead of creating additional ioc container if we can use the existing ioc container to get the object for the bean definition rocket,
+it would be more efficient solution
+
+
+So if we want to get the rocket from the existing ioc container inside the LaunchPad class, inside the LaunchPad we need to get the 
+reference of the ioc container, in which LaunchPad is there
+
+
+======================
+Aware Interfaces
+----------------
+Aware interfaces / injection or interface injection is used for accessing the internal objects of the ioc container within 
+a bean definition
+
+class Rocket {
+	private int rocketNo;
+	private String rocketName;
+	private int weight;
+	
+	public void propel() {
+		sop("rocket is propelling with rocketNo: "+ rocketNo + " rocketName : "+ rocketName + " weight: " + weight);
+	}
+}
+
+class LaunchPad {
+	public void launch() {
+		Rocket rocket = null;
+		BeanFactory beanFactory = null;
+		
+		beanFactory = new XmlBeanFactory(new ClassPathResource("com/ai/common/application-context.xml"));
+		rocket = beanFactory.getBean("rocket", Rocket.class);
+		rocket.propel();
+		sop("launched rocket");
+	}
+}
+
+application-context.xml
+------------------------
+<bean id="rocket" class="Rocket" p:rocketNo="29" p:rocketName="pslv3" p:weight="938"/>
+<bean id="launchPad" class="LaunchPad"/>
+
+Test.java
+----------
+BeanFactory	beanFactory = new XmlBeanFactory(new ClassPathResource("com/ai/common/application-context.xml"));
+LaunchPad launchPad = beanFactory.getBean("launchPad", LaunchPad.class);
+launchPad.launch();
+
+In the above program we are unnecessarily creating 2 ioc containers, 
+the ioc container that is created in Test class has both rocket and launchPad bean definitions,
+within the LaunchPad bean definition object instead of creating one more ioc container we can get the object of Rocket 
+from existing ioc container itself
+
+To access the rocket bean definition object inside the LaunchPad class, current/existing ioc container of the LaunchPad
+How to access/get the reference ioc container inside then bean definition?
+	
+
+ioc container = collaborating the objects and managing the lifecycle 
+dependency pulling
+1. dependency lookup = getting the reference of the object by lookingup the object in an public registry
+2. contextual dependency lookup = there are few objects that are internal to the container which are not publicly exposed. 
+such objects should be provided to our class by container itself. our class should follow the contract (interface) provided by 
+the container and override the method.
+	
+so while creating our object, container will pass the dependent object (internal object) into our class by invoking the 
+contractual method on our class
+note: the contextual dependency look works only when our class is managed/instantiated by the container.
+
+
+There are lot of internal objects inside the ioc container are there
+1. ApplicationEventPublisher
+2. BeanFactory (itself) (implicit and internal object)
+	
+since these are not publicly exposed, the container itself has to provide these objects. To get these objects from the container
+our class should be written following the contract provided by the container.
+for different objects there are different contracts, based on the internal object we need, 
+we need to write our class implementing from the appropriate interface and override method.
+	
+The contractual method will be invoked by ioc container by passing the dependent object (internal object) at the time of creating 
+the object of our class.
+
+In the above example we want BeanFactory object inside LaunchPad, since BeanFactory is an implicit or internal object of the ioc 
+by itself we can access that inside the LaunchPad by implementing an contractual interface
+	
+interface BeanFactoryAware {
+	void setBeanFactory(BeanFactory beanFactory);
+}
+
+class LaunchPad implements BeanFactoryAware {
+	private BeanFactory beanFactory;
+	
+	public void launch() {
+		Rocket rocket = null;
+		rocket = beanFactory.getBean("rocket", Rocket.class);
+		rocket.propel();
+		sop("launched rocket...");
+	}
+	
+	public void setBeanFactory(BeanFactory beanFactory) {  // ioc container will invoke this method by passing BeanFactory
+		this.beanFactory = beanFactory;
+	}
+}
+
+ioc container will invoke the setBeanFactory(beanFactory) while creating the object of LaunchPad.
+
+===================================================
+Static Factory Method Instantiation
+-----------------------------------
+Not every class in java can be created using new operator or just by invoking constructor on the class. few class needs 
+to be instantiated by calling static factory methods on the class we wanted to create the object
+	
+class Appointment {
+	private int appointmentNo;
+	private String name;
+	private String location;
+	private Calendar appointmentDate;
+	private String status;
+	
+	// setter
+}	
+
+application-context.xml
+------------------------
+<bean id="appointment" class="Appointment">
+	<property name="appointmentNo" value="384"/>
+	<property name="name" value="dentist appointment"/>
+	<property name="location" value="2 town, near high court"/>
+	<property name="appointmentDate" ref="appointmentDate"/>
+	<property name="status" value="accepted"/>
+</bean>
+
+<bean id="appointmentDate" class="java.util.Calendar"/>
+
+here if we configure Calendar as an bean definition, ioc container will tries to instantiate the object of the class by invoking 
+the constructor (newInstance() or new operator), but we cannot instantiate Calendar class object using new operator, 
+we need to invoke static factory method on that class getInstance()
+	
+we need to let the ioc container know it should invoke the static factory method inorder to instantiate the object of the Calendar,
+that can be done using static factory method instantiation
+
+<bean id="appointmentDate" class="java.util.Calendar" factory-method="getInstance"/>
+now ioc container invokes the static factory method getInstance() on the class and the returned object will be placed 
+as bean definition within the ioc container with the given id.
+
+{aware interface
+class X { beanFactory.getBean("a"); }
+if it is an internal object of the container, we cannot get the reference of it, only container has to provide Container: 
+tells us to folow the contract, write your class implementing from an interface and override the method taking 
+the dependency as parameter.
+the container itself wil inject the dependent object into our class, at the time of creating the object of our class
+<bean id="a" />
+<bean id="by>
+<b e a n id = "C" >
+EventPublisher ioc container}
+
+Instance Factory method instantiation:
+--------------------------------------
+Instance Factory Method Instantiation
+To understand the instance factory method instantiation, let us learn builder design pattern.
+	
+Factory:
+Factory classes are used for creating the object of another class, we need to use factory classes for creating the object of 
+another classes for 2 reasons:
+1. To abstract the complexity in creating the object of another class
+2. To hide the classname of another class in instantiating the object of another class (to achieve loose coupling)	
+	
+Builder is one more design pattern used for creating the object of another class. Let us understand why Builder pattern should be
+used when we have factory design pattern.
+	
+Factory always takes care of creating the object of another class as empty object, but sometimes we wanted the object of another class to be instantiated by populated with data, this cannot be achieved easily through Factory
+
+abstract class Truck {
+	int truckNo;
+	String model;
+	String manufacturer;
+	double price;
+}
+
+class MiniTruck extends Truck {
+	int capacity;
+	int mileage;
+	
+}
+
+class TipperTruck extends Truck {
+	int height;
+	String hydrolicType;
+	
+}
+
+class TruckFactory {
+	public static Truck createTruck(String truckType, int truckNo, String model, String manufacturer, double price) {
+		Truck truck = null;
+		
+		if(truckType.equals("mini")) {
+			truck = new MiniTruck();
+		}else if(truckType.equals("tipper")) {
+			truck = new TipperTruck();
+		}
+		return truck;
+	}
+}
+
+In the above example, we can can make use of the factory class to create the implementation of the Truck with data, by passing the data as parameters to the factory method of the factory class. but there are problems with this approach as below:
+1. if there are more number of attributes to be populated with data while creating the object, then we need to declare more parameters for the factory method in passing the data, which is not recommended. Because passing the more number of arguments/parameters in calling an method could be errorneous
+2. not all the values are needed while creating the object of the class, few are mandatory and others are optional, in that case also while calling the factory method we should supply values for all the parameters declared
+
+
+To overcome the above problems in creating the object of another class with data, builder design pattern has been introduced.
+
+class TruckBuilder {
+	int truckNo;
+	String model;
+	String manufacturer;
+	double price;
+	
+	TruckBuilder(int truckNo) {
+		this.truckNo = truckNo;
+	}
+	public void setModel(String model) {}
+	public void setManufacturer(String manufacturer) {}
+	public void setPrice(double price) {}
+	
+	public Truck build(String truckType) {
+		Truck truck = null;
+		
+		if(truckType.equals("mini")) {
+			truck = new MiniTruck();
+		}else if(truckType.equals("tipper")) {
+			truck = new TipperTruck();
+		}
+		truck.setTruckNo(truckNo);
+		truck.setModel(model);
+		truck.setManufacturer(manufacturer);
+		truck.setPrice(price);
+		return truck;
+	}
+}	
+
+TruckBuilder builder = new TruckBuilder(10);
+builder.setModel("Mini 1010");
+builder.setManufacturer("Tata Motors");
+builder.setPrice(230000);
+
+Truck truck = builder.build("mini");
+Truck truck2 = builder.build("mini");
+
+Fluent Builder Pattern
+
+230329
+=============
+
+
+	
